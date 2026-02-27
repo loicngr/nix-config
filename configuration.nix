@@ -369,7 +369,6 @@ in
     # Wayland / Niri
     pkgs.xwayland-satellite
     pkgs.playerctl
-    pkgs.swayidle
 
     # Applications
     pkgs.bitwarden-desktop

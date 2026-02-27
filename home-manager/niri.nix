@@ -1,4 +1,4 @@
-{ pkgs, unstable, noctalia, ... }:
+{ pkgs, unstable, noctalia, stasis, ... }:
 
 {
   # ==========================================================================
@@ -10,13 +10,14 @@
     spawn-at-startup "xwayland-satellite"
     spawn-at-startup "noctalia-shell"
     spawn-at-startup "kanshi"
-    spawn-at-startup "bash" "-lc" "swayidle -w timeout 600 'niri msg action power-off-monitors' resume 'niri msg action power-on-monitors'"
     spawn-at-startup "solaar" "--window=hide"
 
     // Désactivé: forcer DISPLAY sous Wayland peut casser des apps Xwayland.
     // environment {
     //     DISPLAY ":0"
     // }
+
+    spawn-at-startup "stasis"
 
     input {
         keyboard {
@@ -300,6 +301,37 @@
       gtk-application-prefer-dark-theme = true;
     };
   };
+
+  # ==========================================================================
+  # Stasis - Idle manager Wayland (remplace swayidle)
+  # ==========================================================================
+
+  home.packages = [
+    stasis.packages.${pkgs.stdenv.hostPlatform.system}.stasis
+  ];
+
+  xdg.configFile."stasis/stasis.rune".text = ''
+    @description "Niri + Noctalia idle config"
+
+    screen_off_after  15
+    lock_after        30
+
+    default:
+      monitor_media true
+      ignore_remote_media true
+
+      dpms:
+        timeout screen_off_after
+        command "niri msg action power-off-monitors"
+        resume_command "niri msg action power-on-monitors"
+      end
+
+      lock_screen:
+        timeout lock_after
+        command "noctalia-shell ipc call lockScreen lock"
+      end
+    end
+  '';
 
   home.pointerCursor = {
     name = "catppuccin-mocha-mauve-cursors";

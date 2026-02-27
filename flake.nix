@@ -15,6 +15,11 @@
       url = "github:noctalia-dev/noctalia-shell";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    stasis = {
+      url = "github:saltnpepper97/stasis";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =
@@ -26,6 +31,7 @@
       claude-code,
       codex-cli-nix,
       noctalia,
+      stasis,
       ...
     }:
     let
@@ -61,7 +67,7 @@
       };
       homeConfigurations.loicngr = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = { inherit unstable noctalia; };
+        extraSpecialArgs = { inherit unstable noctalia stasis; };
         modules = [
           noctalia.homeModules.default
           ./modules/php.nix
