@@ -54,9 +54,7 @@
     # Niri - Wayland compositor + Noctalia
     brightnessctl
     kanshi
-    playerctl
     solaar
-    swayidle
     catppuccin-gtk
     catppuccin-cursors.mochaMauve
     papirus-icon-theme

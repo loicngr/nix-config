@@ -10,12 +10,13 @@
     spawn-at-startup "xwayland-satellite"
     spawn-at-startup "noctalia-shell"
     spawn-at-startup "kanshi"
-    spawn-at-startup "bash" "-lc" "swayidle -w timeout 600 'niri msg action power-off-monitors' resume 'niri msg action power-on-monitors' before-sleep 'noctalia-shell ipc call lockScreen lock'"
+    spawn-at-startup "bash" "-lc" "swayidle -w timeout 600 'niri msg action power-off-monitors' resume 'niri msg action power-on-monitors'"
     spawn-at-startup "solaar" "--window=hide"
 
-    environment {
-        DISPLAY ":0"
-    }
+    // Désactivé: forcer DISPLAY sous Wayland peut casser des apps Xwayland.
+    // environment {
+    //     DISPLAY ":0"
+    // }
 
     input {
         keyboard {
@@ -238,7 +239,15 @@
     package = noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
       calendarSupport = true;
     };
+    settings = ../config/noctalia/settings.json;
+    colors = ../config/noctalia/colors.json;
+    plugins = ../config/noctalia/plugins.json;
   };
+
+  # Évite un échec d'activation si des fichiers Noctalia existent déjà localement.
+  # xdg.configFile."noctalia/settings.json".force = true;
+  # xdg.configFile."noctalia/colors.json".force = true;
+  # xdg.configFile."noctalia/plugins.json".force = true;
 
   # ==========================================================================
   # Kanshi - Profils d'écrans automatiques

@@ -259,7 +259,6 @@ in
 
   services.gnome.gnome-keyring.enable = true;
   security.polkit.enable = true;
-  security.pam.services.swaylock = {};
 
   environment.gnome.excludePackages = (
     with pkgs;
@@ -369,6 +368,8 @@ in
 
     # Wayland / Niri
     pkgs.xwayland-satellite
+    pkgs.playerctl
+    pkgs.swayidle
 
     # Applications
     pkgs.bitwarden-desktop
