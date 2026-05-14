@@ -1,0 +1,8 @@
+editor: micro
+
+custom_commands:
+  o:
+    command: zsh
+    description: Open in new Kitty tab
+    new_tab: false
+    show_help: true
