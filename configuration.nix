@@ -22,8 +22,20 @@ in
   ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot = {
+    enable = true;
+    configurationLimit = 10;
+  };
   boot.loader.efi.canTouchEfiVariables = true;
+
+  # Nettoyage de /tmp au boot pour libérer la RAM (tmpfs)
+  boot.tmp.cleanOnBoot = true;
+
+  # zramSwap : amortisseur RAM compressé en complément du swapfile disque
+  zramSwap.enable = true;
+
+  # Limite la taille des logs systemd pour éviter qu'ils grossissent indéfiniment
+  services.journald.extraConfig = "SystemMaxUse=500M";
 
   # Increase the amount of inotify watchers
   # Note that inotify watches consume 1kB on 64-bit machines.
@@ -31,6 +43,7 @@ in
     "fs.inotify.max_user_watches"   = 1048576;   # default:  8192
     "fs.inotify.max_user_instances" =    1024;   # default:   128
     "fs.inotify.max_queued_events"  =   32768;   # default: 16384
+    "vm.swappiness"                 =      10;   # default:    60 (préfère vider le page cache que swapper)
   };
 
   networking.hostName = "loicngr"; # Define your hostname.
@@ -74,6 +87,15 @@ in
   };
 
   services.gvfs.enable = true;
+
+  # TRIM hebdomadaire pour SSD (longévité + perf d'écriture)
+  services.fstrim.enable = true;
+
+  # Gestion thermique active (Intel) - évite le throttling sous charge soutenue
+  services.thermald.enable = true;
+
+  # dbus-broker : implémentation moderne (par systemd), plus rapide que dbus-daemon
+  services.dbus.implementation = "broker";
 
   hardware.bluetooth = {
     enable = true;
@@ -135,8 +157,7 @@ in
     "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
   };
 
-  # Flatpak
-  services.flatpak.enable = true;
+  # xdg.portal : nécessaire pour Wayland (file pickers, screen sharing, etc.)
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
 
@@ -189,6 +210,12 @@ in
   programs.dconf = {
     enable = true;
   };
+
+  # GameMode : optimisations CPU/scheduler à la demande (active le groupe `gamemode`)
+  programs.gamemode.enable = true;
+
+  # Désactive la génération du cache mandb à chaque rebuild (gain build time)
+  documentation.man.generateCaches = false;
 
   programs.firefox.enable = true;
 
@@ -279,11 +306,6 @@ in
     pkgs.rsync
     pkgs.jq
     pkgs.just
-    unstable.lazydocker
-    unstable.yazi
-    unstable.lazysql
-    unstable.lazyjournal
-    unstable.lazyworktree
     pkgs.ripgrep
     pkgs.yq
     pkgs.nautilus
@@ -297,8 +319,6 @@ in
     pkgs.lshw
     pkgs.home-manager
     pkgs.pulseaudio
-    pkgs.fx
-    pkgs.nap
 
     # Développement - Build tools
     pkgs.autoconf
@@ -386,6 +406,12 @@ in
     EDITOR = "micro";
     VISUAL = "micro";
     TERMINAL = "kitty";
+
+    # Wayland natif (réduit XWayland, meilleure scaling HiDPI, moins de latence)
+    MOZ_ENABLE_WAYLAND = "1";                  # Firefox
+    QT_QPA_PLATFORM = "wayland;xcb";           # Qt avec fallback X11
+    SDL_VIDEODRIVER = "wayland";               # SDL/jeux
+    _JAVA_AWT_WM_NONREPARENTING = "1";         # JetBrains/Java sous WM tiling
   };
 
   xdg.mime.defaultApplications = {
@@ -590,7 +616,7 @@ in
   # networking.firewall.enable = false;
 
   nix = {
-    optimise.automatic = false;
+    optimise.automatic = true;
 
     settings = {
       experimental-features = [

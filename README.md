@@ -22,11 +22,9 @@ Configuration NixOS personnelle pour une station de travail de développement we
 │       └── plugins.json       # Plugins Noctalia
 ├── home-manager/
 │   ├── loicngr.nix            # Configuration utilisateur (Home Manager)
-│   ├── niri.nix               # Niri + Noctalia + Kanshi + GTK/curseur
+│   ├── niri.nix               # Niri + Noctalia + GTK/curseur
 │   ├── kitty.nix              # Configuration terminal Kitty
-│   ├── zed.nix                # Éditeur Zed (extensions, LSP, thème, formatters)
-│   ├── helix.nix              # Éditeur Helix
-│   └── nvchad.nix             # Configuration NvChad (Neovim)
+│   └── zed.nix                # Éditeur Zed (extensions, LSP, thème, formatters)
 ├── modules/
 │   ├── nvidia.nix             # Configuration GPU NVIDIA (Intel/NVIDIA hybrid)
 │   ├── php.nix                # Environnements PHP 8.3 / 8.4 / 8.5
@@ -48,16 +46,6 @@ Configuration NixOS personnelle pour une station de travail de développement we
 Session Wayland par défaut avec :
 - **Niri** — Compositeur Wayland tiling (scrollable)
 - **Noctalia** — Shell desktop (barre, lockscreen, launcher, control center, notifications)
-- **Kanshi** — Profils d'écrans automatiques (laptop, home, work)
-- **swayidle** — Extinction des moniteurs après 10 min d'inactivité
-
-### Profils Kanshi
-
-| Profil | Écrans |
-|--------|--------|
-| `laptop` | eDP-1 (1920x1080) |
-| `home` | ASUS VN247 + ASUS VG27A (2560x1440) |
-| `work` | Dell E2416H + Samsung C27F390 (2x 1920x1080) |
 
 ### Raccourcis Niri
 
@@ -125,7 +113,6 @@ Configuration système principale NixOS.
 Configuration Wayland complète :
 - **Niri** — Config KDL (layout, binds, cursor, screenshots)
 - **Noctalia** — Shell desktop avec settings/colors/plugins déclaratifs
-- **Kanshi** — Profils multi-écrans
 - **GTK** — Catppuccin Mocha Mauve + Papirus-Dark icons
 - **Curseur** — catppuccin-mocha-mauve-cursors (24px)
 

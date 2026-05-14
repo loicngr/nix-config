@@ -26,6 +26,13 @@
     uv
     unstable.whisper-cpp
     bubblewrap
+    fx
+    nap
+    unstable.lazydocker
+    unstable.yazi
+    unstable.lazysql
+    unstable.lazyjournal
+    unstable.lazyworktree
 
     # Applications
     fastfetch

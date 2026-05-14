@@ -12,6 +12,9 @@
       listen_on = "unix:/tmp/kitty";
       window_alert_on_bell = "no";
       enable_audio_bell = "no";
+      visual_bell_duration = "0";
+      bell_on_tab = "";
+      command_on_bell = "none";
       strip_trailing_spaces = "smart";
       scrollback_lines = 10000;
       notify_on_cmd_finish = "never";
