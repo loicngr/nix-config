@@ -33,6 +33,8 @@
     unstable.lazysql
     unstable.lazyjournal
     unstable.lazyworktree
+    unstable.glab
+    imagemagick
 
     # Applications
     fastfetch
@@ -47,6 +49,8 @@
     kubectl
     kubernetes-helm
     minikube
+    helmfile
+    act
 
     # Niri - Wayland compositor + Noctalia
     brightnessctl
@@ -58,9 +62,10 @@
 
     # Éditeurs & IDE
     unstable.jetbrains.phpstorm
-    unstable.jetbrains.pycharm
-    unstable.jetbrains.webstorm
+    #unstable.jetbrains.pycharm
+    #unstable.jetbrains.webstorm
     android-studio
+    bundletool
     sourcegit
 
     (pkgs.writeShellScriptBin "eslint-wrapper" (builtins.readFile ../scripts/eslint-wrapper.sh))

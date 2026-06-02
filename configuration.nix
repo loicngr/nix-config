@@ -142,12 +142,12 @@ in
   };
 
   # Swapfile supplémentaire (16 GB) en complément de la partition swap
-  swapDevices = [
-    {
-      device = "/swapfile";
-      size = 16384; # 16 GB en MB
-    }
-  ];
+  #swapDevices = [
+  #  {
+  #    device = "/swapfile";
+  #    size = 16384; # 16 GB en MB
+  #  }
+  #];
 
   services.desktopManager.gnome.enable = true;
 
@@ -213,6 +213,12 @@ in
 
   # GameMode : optimisations CPU/scheduler à la demande (active le groupe `gamemode`)
   programs.gamemode.enable = true;
+
+  # https://wiki.nixos.org/wiki/Steam
+  programs.steam = {
+    enable = true;
+  };
+  
 
   # Désactive la génération du cache mandb à chaque rebuild (gain build time)
   documentation.man.generateCaches = false;
@@ -613,7 +619,8 @@ in
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+
+  networking.firewall.enable = false;
 
   nix = {
     optimise.automatic = true;
