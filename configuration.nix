@@ -594,12 +594,14 @@ in
 
   services.mysql = {
     enable = true;
-    package = pkgs.mariadb;
+    # Épinglé sur 11.4 (LTS) pour garder le datadir compatible lors du passage à 26.05
+    package = pkgs.mariadb_114;
   };
 
   services.postgresql = {
     enable = true;
-    package = pkgs.postgresql;
+    # Épinglé sur PostgreSQL 17 pour éviter un saut de majeure (datadir incompatible) en 26.05
+    package = pkgs.postgresql_17;
   };
 
   # Some programs need SUID wrappers, can be configured further or are
