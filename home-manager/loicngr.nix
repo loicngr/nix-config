@@ -42,7 +42,7 @@
     wkhtmltopdf
     element-desktop
     libreoffice
-    protonvpn-gui
+    proton-vpn
 
     # Kubernetes & Docker
     k9s
