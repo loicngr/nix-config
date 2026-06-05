@@ -1,4 +1,4 @@
-{ pkgs, unstable, noctalia, ... }:
+{ config, pkgs, unstable, noctalia, ... }:
 
 {
   # ==========================================================================
@@ -271,6 +271,9 @@
     gtk3.extraConfig = {
       gtk-application-prefer-dark-theme = true;
     };
+    # 26.05 : le défaut de gtk4.theme est passé à null. On conserve l'apparence
+    # actuelle (apps GTK4 thémées Catppuccin) en réutilisant le thème GTK global.
+    gtk4.theme = config.gtk.theme;
     gtk4.extraConfig = {
       gtk-application-prefer-dark-theme = true;
     };
