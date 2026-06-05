@@ -80,7 +80,6 @@ in
   services.displayManager = {
     gdm = {
       enable = true;
-      wayland = true;
     };
 
     defaultSession = "niri";
@@ -127,12 +126,12 @@ in
     };
   };
 
-  systemd.sleep.extraConfig = ''
-    AllowSuspend=no
-    AllowHibernation=no
-    AllowSuspendThenHibernate=no
-    AllowHybridSleep=no
-  '';
+  systemd.sleep.settings.Sleep = {
+    AllowSuspend = "no";
+    AllowHibernation = "no";
+    AllowSuspendThenHibernate = "no";
+    AllowHybridSleep = "no";
+  };
 
   # Earlyoom — tue les process gourmands avant que le système gèle
   services.earlyoom = {
@@ -199,7 +198,6 @@ in
       "docker"
       "input"
       "kvm"
-      "adbusers"
       "gamemode"
     ];
     packages = with pkgs; [
@@ -404,6 +402,9 @@ in
     # Applications
     # pkgs.bitwarden-desktop
     pkgs.appimage-run
+
+    # Android (adb/fastboot — remplace programs.adb supprimé en 26.05)
+    pkgs.android-tools
   ];
 
   environment.sessionVariables = {
@@ -458,8 +459,6 @@ in
     enable = true;
     binfmt = true;
   };
-
-  programs.adb.enable = true;
 
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
