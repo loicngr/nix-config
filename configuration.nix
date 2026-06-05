@@ -219,7 +219,7 @@ in
   
 
   # Désactive la génération du cache mandb à chaque rebuild (gain build time)
-  documentation.man.generateCaches = false;
+  documentation.man.cache.enable = false;
 
   programs.firefox.enable = true;
 
@@ -484,20 +484,20 @@ in
     nss
     pango
     systemd
-    xorg.libX11
-    xorg.libXcomposite
-    xorg.libXdamage
-    xorg.libXext
-    xorg.libXfixes
-    xorg.libXrandr
-    xorg.libxcb
-    xorg.libxshmfence
+    libx11
+    libxcomposite
+    libxdamage
+    libxext
+    libxfixes
+    libxrandr
+    libxcb
+    libxshmfence
     # Cypress spécifique
-    xorg.libXScrnSaver
-    xorg.libXtst
-    xorg.libXi
-    xorg.libXcursor
-    xorg.libXrender
+    libxscrnsaver
+    libxtst
+    libxi
+    libxcursor
+    libxrender
     # Libs communes
     stdenv.cc.cc.lib
     zlib
@@ -530,7 +530,7 @@ in
     freetype
     freeglut
     fontconfig
-    glew110
+    glew_1_10
     gtk2
     harfbuzz
     libGLU
@@ -575,20 +575,20 @@ in
     wayland
     xz
     # X11 supplémentaires
-    xorg.libICE
-    xorg.libSM
-    xorg.libXft
-    xorg.libXinerama
-    xorg.libXmu
-    xorg.libXt
-    xorg.libXxf86vm
-    xorg.libpciaccess
-    xorg.xcbutil
-    xorg.xcbutilimage
-    xorg.xcbutilkeysyms
-    xorg.xcbutilrenderutil
-    xorg.xcbutilwm
-    xorg.xkeyboardconfig
+    libice
+    libsm
+    libxft
+    libxinerama
+    libxmu
+    libxt
+    libxxf86vm
+    libpciaccess
+    libxcb-util
+    libxcb-image
+    libxcb-keysyms
+    libxcb-render-util
+    libxcb-wm
+    xkeyboard-config
   ];
 
   services.mysql = {
