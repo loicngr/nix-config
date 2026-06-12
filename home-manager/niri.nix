@@ -8,6 +8,8 @@
   xdg.configFile."niri/config.kdl".text = ''
     // Programmes lancés au démarrage
     spawn-at-startup "xwayland-satellite"
+    // Démarrage recommandé par la doc (le service systemd est déprécié upstream :
+    // démarrage retardé + IPC peu fiable).
     spawn-at-startup "noctalia-shell"
 
     spawn-at-startup "solaar" "--window=hide"

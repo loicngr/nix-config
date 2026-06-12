@@ -57,7 +57,7 @@ Ensuite, utilise ces réglages pour mettre à jour la config Nix afin d'obtenir 
 - Pré-requis NixOS à vérifier pour les fonctionnalités Noctalia (wifi/bluetooth/power/battery) :
   `networking.networkmanager.enable`, `hardware.bluetooth.enable`,
   `services.power-profiles-daemon.enable` (ou `services.tuned.enable`), `services.upower.enable`.
-- Si Noctalia est configuré via Home Manager, préférer `programs.noctalia-shell.systemd.enable = true` côté Home Manager.
-- Ne jamais activer le service systemd Noctalia à la fois dans le module NixOS et dans Home Manager (collision possible, comportement imprévisible).
+- Démarrage de Noctalia : `spawn-at-startup "noctalia-shell"` dans la config niri (recommandation doc). Le service systemd (`programs.noctalia-shell.systemd.enable`) est DÉPRÉCIÉ upstream (démarrage retardé, IPC peu fiable) — ne pas l'utiliser, et jamais deux mécanismes de démarrage en même temps.
+- L'input flake suit la branche `legacy-v4` (maintenance v4) du repo `noctalia-dev/noctalia` ; ne jamais pointer `main` (= réécriture v5, incompatible — plan de migration en attente d'un tag v5 stable).
 - En cas d'erreur Home Manager liée aux backups Noctalia (`colors.json.backup`/`settings.json.backup` “would be clobbered”), supprimer ou déplacer ces fichiers puis relancer le rebuild.
 - Les wallpapers Noctalia sont gérés via `~/.cache/noctalia/wallpapers.json` si besoin d'une gestion déclarative.
