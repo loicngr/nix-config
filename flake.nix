@@ -12,7 +12,9 @@
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
 
     noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
+      # Pin sur la dernière v4 stable (taggée). main = réécriture v5 incompatible
+      # (archi native, programs.noctalia, TOML, plus de noctalia-qs/plugins).
+      url = "github:noctalia-dev/noctalia-shell/v4.7.7";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
