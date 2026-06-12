@@ -56,6 +56,14 @@ in
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # DNS Google (secours fiable : évite qu'un hoquet de la box casse les builds nix)
+  networking.nameservers = [
+    "8.8.8.8"
+    "8.8.4.4"
+    "2001:4860:4860::8888"
+    "2001:4860:4860::8844"
+  ];
+
   # Set your time zone.
   time.timeZone = "Europe/Paris";
 
