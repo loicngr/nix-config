@@ -406,6 +406,7 @@ in
     # Wayland / Niri
     pkgs.xwayland-satellite
     pkgs.playerctl
+    pkgs.wdisplays
 
     # Applications
     # pkgs.bitwarden-desktop

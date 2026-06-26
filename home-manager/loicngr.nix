@@ -16,7 +16,19 @@
 
   home.packages = with pkgs; [
     # Ai
-    claude-code
+    # claude lance gstack/browse (binaire bun --compile) qui dlopen sharp.node
+    # pour annoter les captures. Ce dlopen résout libstdc++ via LD_LIBRARY_PATH
+    # (et non NIX_LD_LIBRARY_PATH que gère nix-ld) : on l'injecte sur claude,
+    # browse en hérite. Sinon : "ERR_DLOPEN_FAILED: libstdc++.so.6" → captures brutes.
+    (pkgs.symlinkJoin {
+      name = "claude-code-with-libstdcxx";
+      paths = [ claude-code ];
+      nativeBuildInputs = [ makeWrapper ];
+      postBuild = ''
+        wrapProgram $out/bin/claude \
+          --prefix LD_LIBRARY_PATH : ${stdenv.cc.cc.lib}/lib
+      '';
+    })
     codex
 
     # Tools
