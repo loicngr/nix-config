@@ -63,6 +63,7 @@
     minikube
     helmfile
     act
+    k8sgpt
 
     # Niri - Wayland compositor + Noctalia
     brightnessctl
