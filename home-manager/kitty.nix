@@ -1,8 +1,9 @@
-{ ... }:
+{ unstable, ... }:
 
 {
   programs.kitty = {
     enable = true;
+    package = unstable.kitty;
     themeFile = "Catppuccin-Mocha";
     settings = {
       font_family = "JetBrains Mono";

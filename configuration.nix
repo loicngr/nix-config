@@ -243,11 +243,10 @@ in
 
   programs.nh = {
     enable = true;
-    clean = {
-      enable = true;
-      dates = "weekly";
-      extraArgs = "--keep 5 --keep-since 3d";
-    };
+    # Nettoyage automatique désactivé : un GC hebdo silencieux a déjà supprimé
+    # un store path encore référencé par les symlinks Home Manager actifs,
+    # cassant niri au reboot suivant. Nettoyage désormais manuel via `ncg`.
+    clean.enable = false;
     flake = "/etc/nixos/";
   };
 
@@ -309,6 +308,7 @@ in
 
     # API
     pkgs.insomnia
+    pkgs.k6
 
     # Terminal & Shell & Utilitaires système
     pkgs.btop
@@ -385,6 +385,13 @@ in
       exec ${myPhp85.packages.composer}/bin/composer "$@"
     '')
     pkgs.symfony-cli
+
+    # Développement - Rust
+    pkgs.cargo
+    pkgs.rustc
+    pkgs.rustfmt
+    pkgs.clippy
+    pkgs.rust-analyzer
 
     # Développement - Python
     pkgs.python314
