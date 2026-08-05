@@ -398,6 +398,7 @@ in
 
     # Développement - Java
     pkgs.javaPackages.compiler.openjdk17
+    pkgs.javaPackages.compiler.openjdk21
 
     # Développement - Bases de données
     pkgs.mariadb

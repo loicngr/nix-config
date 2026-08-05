@@ -228,6 +228,7 @@
 
         // Applications
         Mod+B { spawn "google-chrome-stable"; }
+        Mod+Shift+B { spawn "chrome-webgpu"; }
     }
   '';
 

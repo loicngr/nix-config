@@ -81,6 +81,18 @@
     bundletool
     sourcegit
 
+    # Chrome isolé pour les applications WebGPU qui nécessitent XWayland + Vulkan/ANGLE.
+    (pkgs.writeShellScriptBin "chrome-webgpu" ''
+      webgpu_profile="''${XDG_CONFIG_HOME:-$HOME/.config}/google-chrome-webgpu"
+
+      exec ${pkgs.google-chrome}/bin/google-chrome-stable \
+        --user-data-dir="$webgpu_profile" \
+        --ozone-platform=x11 \
+        --enable-unsafe-webgpu \
+        --enable-features=Vulkan,VulkanFromANGLE,DefaultANGLEVulkan \
+        "$@"
+    '')
+
     (pkgs.writeShellScriptBin "eslint-wrapper" (builtins.readFile ../scripts/eslint-wrapper.sh))
     (pkgs.writeShellScriptBin "php-cs-fixer-wrapper" (
       builtins.readFile ../scripts/php-cs-fixer-wrapper.sh
@@ -92,6 +104,17 @@
     (pkgs.writeShellScriptBin "claude-commit" (builtins.readFile ../scripts/claude-commit.sh))
     (pkgs.writeShellScriptBin "tmux-project" (builtins.readFile ../scripts/tmux-project.sh))
   ];
+
+  xdg.desktopEntries.chrome-webgpu = {
+    name = "Chrome WebGPU";
+    genericName = "Navigateur WebGPU";
+    comment = "Chrome XWayland avec Vulkan/ANGLE pour les applications WebGPU";
+    exec = "chrome-webgpu %U";
+    icon = "google-chrome";
+    terminal = false;
+    categories = [ "Network" "WebBrowser" ];
+    startupNotify = true;
+  };
 
   programs.delta = {
     enable = true;
