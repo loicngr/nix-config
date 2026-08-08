@@ -371,7 +371,11 @@
       widget = {
         cat.type = "dotnetrob/cat:cat";
         media.enabled = false;
+        # Format chrono (v4 utilisait le format Qt "HH:mm ddd, MMM dd").
+        clock.format = "{:%d-%m-%Y %H:%M:%S}";
       };
+
+      control_center.calendar.show_events_card = false;
 
       # Widgets de l'écran de verrouillage (positionnés via l'UI, liés à eDP-1).
       # `enabled = false` : la fonctionnalité reste inactive, la disposition est
