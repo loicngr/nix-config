@@ -365,6 +365,10 @@
         position = "top";
         background_opacity = 0.93;
         capsule = true;
+        # Défauts v5 : margin_ends = 180 (!) et margin_edge = 10 -> barre encastrée
+        # de 180 px à chaque bout. v4 avait marginHorizontal/marginVertical = 4.
+        margin_ends = 4;
+        margin_edge = 4;
         # Reprise de la disposition v4 (catwalk supprimé ; clipper -> clipboard natif).
         start = [
           "launcher"
