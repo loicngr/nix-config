@@ -267,7 +267,7 @@
       theme = {
         mode = "dark";
         source = "builtin";
-        builtin = "Noctalia";
+        builtin = "Dracula"; # re-tuning UI 2026-08-06 (était "Noctalia")
 
         # Templates DÉSACTIVÉS. Défauts v5: enable_builtin_templates = true et
         # enable_community_templates = true (config_types.h:1429-1430). Les templates
@@ -356,9 +356,63 @@
       # + sunrise/sunset. On l'utilise plutôt que `address = "Nîmes"` : pas de
       # géocodage réseau, et le résultat est déterministe.
       location = {
+        address = "Nîmes"; # utilisé par la météo (v4: location.name)
+        # Planning jour/nuit du night light : horaires manuels plutôt que
+        # géocodage de l'adresse (v4: manualSunrise/manualSunset).
         custom_schedule = true;
         sunrise = "06:30";
         sunset = "18:30";
+      };
+
+      # Plugins v5 (Luau). Sources `official` + `community` = défauts, rien à déclarer.
+      plugins.enabled = [ "dotnetrob/cat" ];
+
+      # Réglages par widget (v5 les sort du tableau de la barre).
+      widget = {
+        cat.type = "dotnetrob/cat:cat";
+        media.enabled = false;
+      };
+
+      # Widgets de l'écran de verrouillage (positionnés via l'UI, liés à eDP-1).
+      # `enabled = false` : la fonctionnalité reste inactive, la disposition est
+      # simplement mémorisée.
+      lockscreen_widgets = {
+        enabled = false;
+        schema_version = 2;
+        widget_order = [ "lockscreen-login-box@eDP-1" ];
+
+        grid = {
+          cell_size = 16;
+          major_interval = 4;
+          visible = true;
+        };
+
+        widget."lockscreen-login-box@eDP-1" = {
+          type = "login_box";
+          output = "eDP-1";
+          cx = 960.0;
+          cy = 898.0;
+          box_width = 810.0;
+          box_height = 196.0;
+          rotation = 0.0;
+
+          settings = {
+            background_color = "surface_variant";
+            background_opacity = 0.88;
+            background_radius = 12.0;
+            center_password_text = false;
+            input_opacity = 1.0;
+            input_radius = 6.0;
+            layout = "regular";
+            show_caps_lock = true;
+            show_keyboard_layout = true;
+            show_login_button = true;
+            show_media = true;
+            show_session_buttons = true;
+            show_unlock_hint = true;
+            show_weather = true;
+          };
+        };
       };
 
       bar.main = {
@@ -369,13 +423,16 @@
         # de 180 px à chaque bout. v4 avait marginHorizontal/marginVertical = 4.
         margin_ends = 4;
         margin_edge = 4;
-        # Reprise de la disposition v4 (catwalk supprimé ; clipper -> clipboard natif).
+        thickness = 30; # défaut v5 = 34
+        # Disposition v4 ; `cat` = plugin communautaire dotnetrob/cat, qui remplace
+        # le plugin v4 `catwalk` (chat animé) abandonné faute d'équivalent officiel.
         start = [
           "launcher"
           "clock"
           "sysmon"
           "active_window"
           "media"
+          "cat"
         ];
         center = [ "workspaces" ];
         end = [
