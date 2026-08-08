@@ -1,0 +1,121 @@
+{
+  "items": [
+    {
+      "id": "pinned-1778050915975-5226",
+      "cliphistId": "5226",
+      "content": "PR qui regroupe la facturation électronique : https://github.com/lewebfrancais/Sekur/pull/118\n\nEpic de la facturation électronique sur notion : https://www.notion.so/lewebfrancais/Agence-Fran-aise-R-viser-les-options-de-param-trages-et-les-blocs-dans-les-formulaires-m-tiers-li-e-2fb707714b1880be9424c1ee618da639 (il faut regarder dans la sous page Story)\n\nNous on vas travailler sur https://www.notion.so/lewebfrancais/Agence-FR-R-viser-la-fiche-Client-B-n-ficiaire-et-moyens-de-paiement-2d98cddec3944df8bf62bc811223fd6c",
+      "preview": "PR qui regroupe la facturation électronique : https://github.com/lewebfrancais/Sekur/pull/118 Epic d…",
+      "mime": "text/plain",
+      "isImage": false,
+      "pinnedAt": 1778050915975
+    },
+    {
+      "id": "pinned-1779346714163-6265",
+      "cliphistId": "6265",
+      "content": "Ty=qP=8hyU58$Wz*",
+      "preview": "Ty=qP=8hyU58$Wz*",
+      "mime": "text/plain",
+      "isImage": false,
+      "pinnedAt": 1779346714163
+    },
+    {
+      "id": "pinned-1779346716112-6261",
+      "cliphistId": "6261",
+      "content": "!EquipeDeChoc_2024@",
+      "preview": "!EquipeDeChoc_2024@",
+      "mime": "text/plain",
+      "isImage": false,
+      "pinnedAt": 1779346716112
+    },
+    {
+      "id": "pinned-1779970522767-6783",
+      "cliphistId": "6783",
+      "content": "Nouvelles fonctionnalités\n  - Offre d'abonnement révisée (plus claire et flexible)\n  - Support du paiement PayPal\n  - Section catalogue complète (tâches, prestations, opérations)\n  - Catalogue de prestations pré-configuré pour les nouvelles agences\n\nAméliorations\n  - Parcours d'inscription et période d'essai simplifiés\n  - Module d'onboarding enrichi\n  - Meilleure visibilité des données d'exemple et tutoriels\n\nCorrections\n  - Génération de devis, contrats, et gestion des collaborateurs",
+      "preview": "Nouvelles fonctionnalités - Offre d'abonnement révisée (plus claire et flexible) - Support du paieme…",
+      "mime": "text/plain",
+      "isImage": false,
+      "pinnedAt": 1779970522767
+    },
+    {
+      "id": "pinned-1781163908997-7741",
+      "cliphistId": "7741",
+      "content": "-Dawt.toolkit.name=WLToolkit",
+      "preview": "-Dawt.toolkit.name=WLToolkit",
+      "mime": "text/plain",
+      "isImage": false,
+      "pinnedAt": 1781163908997
+    },
+    {
+      "id": "pinned-1781863203053-8344",
+      "cliphistId": "8344",
+      "content": "-Dawt.toolkit.name=XToolkit",
+      "preview": "-Dawt.toolkit.name=XToolkit",
+      "mime": "text/plain",
+      "isImage": false,
+      "pinnedAt": 1781863203053
+    },
+    {
+      "id": "pinned-1782200630447-8625",
+      "cliphistId": "8625",
+      "content": "EQJLB8ghPVp7340mYHiD",
+      "preview": "EQJLB8ghPVp7340mYHiD",
+      "mime": "text/plain",
+      "isImage": false,
+      "pinnedAt": 1782200630447
+    },
+    {
+      "id": "pinned-1782226128672-8904",
+      "cliphistId": "8904",
+      "content": "JI1Nk]OvXQbJOzf|gXn=6yY%qr{",
+      "preview": "JI1Nk]OvXQbJOzf|gXn=6yY%qr{",
+      "mime": "text/plain",
+      "isImage": false,
+      "pinnedAt": 1782226128672
+    },
+    {
+      "id": "pinned-1782284639385-9084",
+      "cliphistId": "9084",
+      "content": "VBhP1Pp1T5TyDGjXR",
+      "preview": "VBhP1Pp1T5TyDGjXR",
+      "mime": "text/plain",
+      "isImage": false,
+      "pinnedAt": 1782284639385
+    },
+    {
+      "id": "pinned-1782315604418-9339",
+      "cliphistId": "9339",
+      "content": ", datname=~\"$datname\"",
+      "preview": ", datname=~\"$datname\"",
+      "mime": "text/plain",
+      "isImage": false,
+      "pinnedAt": 1782315604418
+    },
+    {
+      "id": "pinned-1782388338814-9723",
+      "cliphistId": "9723",
+      "content": "!EquipeDeChoc_2024@",
+      "preview": "!EquipeDeChoc_2024@",
+      "mime": "text/plain",
+      "isImage": false,
+      "pinnedAt": 1782388338814
+    },
+    {
+      "id": "pinned-1783428774981-11123",
+      "cliphistId": "11123",
+      "content": "corrige ApiDocTest, tu peux dé-commenter la ligne qui skip le test pour le lancer et tout régénérer proprement.",
+      "preview": "corrige ApiDocTest, tu peux dé-commenter la ligne qui skip le test pour le lancer et tout régénérer …",
+      "mime": "text/plain",
+      "isImage": false,
+      "pinnedAt": 1783428774981
+    },
+    {
+      "id": "pinned-1784815785870-13028",
+      "cliphistId": "13028",
+      "content": "t'as un script pour copier les envs dans les worktree si tu veux sh/worktree-sync-env.sh -v --full \"/home/loicngr/PhpstormProjects/sekur\" \"xxxxx\"\n",
+      "preview": "t'as un script pour copier les envs dans les worktree si tu veux sh/worktree-sync-env.sh -v --full \"…",
+      "mime": "text/plain",
+      "isImage": false,
+      "pinnedAt": 1784815785870
+    }
+  ]
+}

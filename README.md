@@ -17,9 +17,7 @@ Configuration NixOS personnelle pour une station de travail de développement we
 │   ├── lazyworktree/
 │   │   └── config.yaml        # Config lazyworktree
 │   └── noctalia/
-│       ├── settings.json      # Réglages Noctalia
-│       ├── colors.json        # Thème couleurs Noctalia
-│       └── plugins.json       # Plugins Noctalia
+│       └── v4-archive/        # Conf v4 archivée (réf. de re-tuning + données clipper)
 ├── home-manager/
 │   ├── loicngr.nix            # Configuration utilisateur (Home Manager)
 │   ├── niri.nix               # Niri + Noctalia + GTK/curseur
@@ -53,6 +51,9 @@ Session Wayland par défaut avec :
 |-----------|--------|
 | `Mod+Return` | Kitty + tmux |
 | `Mod+D` | Lanceur Noctalia |
+| `Mod+V` | Presse-papier (natif v5, remplace le plugin `clipper`) |
+| `Mod+period` | Emoji (provider `/emo` du lanceur) |
+| `Mod+M` | Control center, onglet `monitor` |
 | `Mod+L` | Lockscreen Noctalia |
 | `Mod+Tab` | Overview workspaces |
 | `Mod+Q` | Fermer fenêtre |
@@ -76,7 +77,7 @@ Point d'entrée du système.
 | `home-manager` | Release 25.11 |
 | `claude-code` | Claude Code CLI |
 | `codex-cli-nix` | Codex CLI |
-| `noctalia` | Noctalia shell (follows nixpkgs-unstable) |
+| `noctalia` | Noctalia shell **v5** — pinné sur le tag `v5.0.0-beta.7` (follows nixpkgs-unstable) |
 
 **Outputs :**
 - `nixosConfigurations.loicngr` — Configuration système
@@ -112,7 +113,7 @@ Configuration système principale NixOS.
 
 Configuration Wayland complète :
 - **Niri** — Config KDL (layout, binds, cursor, screenshots)
-- **Noctalia** — Shell desktop avec settings/colors/plugins déclaratifs
+- **Noctalia v5** — Shell desktop, `programs.noctalia` (settings TOML déclaratifs, plugins Luau)
 - **GTK** — Catppuccin Mocha Mauve + Papirus-Dark icons
 - **Curseur** — catppuccin-mocha-mauve-cursors (24px)
 
