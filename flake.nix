@@ -12,9 +12,10 @@
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
 
     noctalia = {
-      # Branche de maintenance v4 (reco doc NixOS) : correctifs v4 suivis via nup,
-      # sans jamais tirer la réécriture v5 (= main). Repo renommé noctalia-dev/noctalia.
-      url = "github:noctalia-dev/noctalia/legacy-v4";
+      # v5 pinné sur un tag : aucun tag v5.0.0 stable n'existe encore, beta.7 est
+      # la dernière beta (2026-07-30). Pin par tag = `nup` ne re-bumpe pas le shell ;
+      # la montée de version reste une décision explicite. Rollback = branche main (v4.7.7).
+      url = "github:noctalia-dev/noctalia/v5.0.0-beta.7";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
@@ -42,7 +43,6 @@
         overlays = [
           claude-code.overlays.default
           codex-cli-nix.overlays.default
-          noctalia.inputs.noctalia-qs.overlays.default
         ];
       };
 
