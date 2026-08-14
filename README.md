@@ -77,7 +77,7 @@ Point d'entrée du système.
 | `home-manager` | Release 25.11 |
 | `claude-code` | Claude Code CLI |
 | `codex-cli-nix` | Codex CLI |
-| `noctalia` | Noctalia shell **v5** — pinné sur le tag `v5.0.0-beta.7` (follows nixpkgs-unstable) |
+| `noctalia` | Noctalia shell **v5** — pinné sur le tag `v5.0.0-beta.8` (follows nixpkgs-unstable) |
 
 **Outputs :**
 - `nixosConfigurations.loicngr` — Configuration système

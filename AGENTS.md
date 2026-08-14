@@ -48,7 +48,7 @@ lecture préalable des fichiers ci-dessus est considérée comme invalide.
 
 ### Noctalia (v5)
 
-**Migré en v5 le 2026-08-06** (`v5.0.0-beta.7`). Binaire : `noctalia`. IPC : `noctalia msg <cmd>`.
+**Migré en v5 le 2026-08-06**, monté en `v5.0.0-beta.8` le 2026-08-14. Binaire : `noctalia`. IPC : `noctalia msg <cmd>`.
 Module Home Manager : `programs.noctalia` (config **TOML**), dans `home-manager/niri.nix`.
 
 #### Récupérer les réglages faits via l'interface
@@ -82,7 +82,7 @@ le fichier déclaratif et qui **gagne** sur lui. Workflow pour rendre un réglag
   secours ouvert (`Ctrl+Alt+F2` → `loginctl unlock-session`).
 - **Ne jamais activer les templates de thème** (`kitty`, `niri`, `gtk`, `qt`…) : ces chemins sont
   des symlinks Home Manager en lecture seule → échec, ou fichier réel qui casse les rebuilds.
-- L'input flake est pinné sur le **tag** `v5.0.0-beta.7` : `nup` ne re-bumpe donc pas le shell,
+- L'input flake est pinné sur le **tag** `v5.0.0-beta.8` : `nup` ne re-bumpe donc pas le shell,
   la montée de version est une modification explicite de `flake.nix`. Rollback = branche `main`
   (v4.7.7 sur `legacy-v4`) ; la conf v4 est archivée dans `config/noctalia/v4-archive/`.
 - En cas d'erreur Home Manager « would be clobbered » sur des fichiers Noctalia : supprimer les
