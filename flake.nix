@@ -12,10 +12,16 @@
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
 
     noctalia = {
-      # v5 pinné sur un tag : aucun tag v5.0.0 stable n'existe encore, beta.9 est
-      # la dernière beta (2026-08-24). Pin par tag = `nup` ne re-bumpe pas le shell ;
-      # la montée de version reste une décision explicite. Rollback = branche main (v4.7.7).
-      url = "github:noctalia-dev/noctalia/v5.0.0-beta.9";
+      # v5.0.1 (2026-09-03) : première release stable, après la phase bêta
+      # (beta.2 à beta.10). Pin par tag = `nup` ne re-bumpe pas le shell ; la
+      # montée de version reste une décision explicite. Rollback = branche main
+      # (v4.7.7) ou v5.0.0-beta.10.
+      #
+      # Packaging Nix changé depuis beta.10 : "drop bundled home-manager
+      # Noctalia module in favor of upstream". Build validé avec
+      # `programs.noctalia.settings` (Task 2026-09-07) -- vérifier au runtime
+      # après application.
+      url = "github:noctalia-dev/noctalia/v5.0.1";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
