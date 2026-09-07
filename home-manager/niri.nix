@@ -262,6 +262,9 @@
     # reload), puis `noctalia config export` -> re-fold ici (Task 9).
     # Référence des réglages v4 : config/noctalia/v4-archive/settings.json
     settings = {
+      # Échelle globale de l'UI, réglée via l'interface le 2026-08-24.
+      accessibility.ui_scale = 0.9;
+
       # Thème builtin : les couleurs custom v4 ne sont pas migrées (décision).
       # v4 utilisait déjà colorSchemes.predefinedScheme = "Noctalia (default)".
       theme = {
@@ -316,6 +319,15 @@
           { action = "logout"; enabled = true; }
           { action = "shutdown"; enabled = true; }
         ];
+
+        # Historique du presse-papier natif, réglé via l'UI 2026-08-24 (défaut v5: 100).
+        clipboard_history_max_entries = 200;
+      };
+
+      # Réglé via l'UI 2026-08-24.
+      notification = {
+        background_opacity = 0.9;
+        scale = 1.0;
       };
 
       # OSD : v4 n'affichait que 3 types (osd.enabledTypes = [0,1,2]) ; v5 active les
@@ -446,6 +458,7 @@
           "battery"
           "volume"
           "brightness"
+          "caffeine" # ajouté via l'UI 2026-08-24
           "control-center"
         ];
       };

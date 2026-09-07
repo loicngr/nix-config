@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Format PHP via php-cs-fixer for use as Zed external formatter.
+# Formate le PHP via php-cs-fixer.
 #
 # Usage: php-cs-fixer-wrapper [--stdin-filepath PATH] < input > output
 #

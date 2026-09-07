@@ -4,7 +4,6 @@
   imports = [
     ./kitty.nix
     ./niri.nix
-    ./zed.nix
   ];
   home.username = "loicngr";
   home.homeDirectory = "/home/loicngr";
@@ -47,6 +46,7 @@
     unstable.lazyworktree
     unstable.glab
     imagemagick
+    rclone
 
     # Applications
     fastfetch
@@ -538,5 +538,28 @@
 
   xdg.configFile."micro/settings.json".text = builtins.toJSON {
     colorscheme = "dracula";
+  };
+
+  # Montage WebDAV LWF (vps9) via rclone, démarré au login et gardé actif.
+  # Le secret (rclone.conf avec le mot de passe obscurci) n'est PAS géré par
+  # Nix : il vit dans ~/.config/rclone/rclone.conf (hors store, non versionné,
+  # permissions 600) car ce dépôt ne dispose pas encore de gestion de secrets
+  # (agenix/sops-nix).
+  systemd.user.services.rclone-webdav-lwf = {
+    Unit = {
+      Description = "Montage WebDAV LWF (vps9) via rclone";
+      After = [ "network-online.target" ];
+      Wants = [ "network-online.target" ];
+    };
+    Service = {
+      Type = "simple";
+      ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p %h/webdav-lwf";
+      ExecStart = "${pkgs.rclone}/bin/rclone mount lwf-webdav: %h/webdav-lwf --config %h/.config/rclone/rclone.conf --vfs-cache-mode writes --dir-cache-time 30s";
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
   };
 }

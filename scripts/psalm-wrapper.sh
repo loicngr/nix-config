@@ -6,7 +6,7 @@
 # Si trouvé, cd dans son dossier et utilise vendor/bin/psalm ou
 # tools/psalm/vendor/bin/psalm s'ils existent. Sinon, fallback sur `psalm` du PATH.
 #
-# Conçu pour être passé à Zed via `lsp.psalm.binary.path = "psalm-wrapper"`.
+# Conçu pour être appelé par les éditeurs configurés.
 
 set -u
 

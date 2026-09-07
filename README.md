@@ -22,7 +22,6 @@ Configuration NixOS personnelle pour une station de travail de développement we
 │   ├── loicngr.nix            # Configuration utilisateur (Home Manager)
 │   ├── niri.nix               # Niri + Noctalia + GTK/curseur
 │   ├── kitty.nix              # Configuration terminal Kitty
-│   └── zed.nix                # Éditeur Zed (extensions, LSP, thème, formatters)
 ├── modules/
 │   ├── nvidia.nix             # Configuration GPU NVIDIA (Intel/NVIDIA hybrid)
 │   ├── php.nix                # Environnements PHP 8.3 / 8.4 / 8.5
@@ -183,33 +182,6 @@ Configuration utilisateur Home Manager.
 - kDrive, Element Desktop, KeePassXC, Thunderbird
 
 ---
-
-### `home-manager/zed.nix`
-
-Configuration de l'éditeur Zed.
-
-| Section | Détail |
-|---------|--------|
-| Thème | Catppuccin Mocha (sombre) / Latte (clair) |
-| Keymap | JetBrains (compat PhpStorm) |
-| Extensions | catppuccin, nix, vue, twig, dockerfile, docker-compose, ruff, psalm |
-| Node | `pkgs.nodejs_24` (pour les LSP qui en ont besoin) |
-| Diagnostics | inline activé |
-| Inlay hints | activé (params, types, valeurs en debug) |
-| Brackets | colorize_brackets |
-
-**LSP configurés :**
-- **eslint** — `workingDirectory.mode = "auto"` (monorepos type `front/.eslintrc.js`)
-- **psalm** — utilise `psalm-wrapper` (auto-détection conf + binaire vendored)
-
-**PHP :**
-- LSP : `phpactor` + `psalm` (parallèle)
-- Formatter : `php-cs-fixer-wrapper` via stdin (avec `--stdin-filepath {buffer_path}`)
-- `format_on_save` désactivé (race condition watcher Zed avec formatters lents)
-
-**Tasks PHPStan** (palette → "task: spawn") :
-- `PHPStan: analyse projet`
-- `PHPStan: analyse fichier courant`
 
 ---
 
