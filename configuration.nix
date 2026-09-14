@@ -302,9 +302,10 @@ in
     # Streaming/Remote
     pkgs.parsec-bin
 
-    # Video
+    # Video / Image
     pkgs.vlc
     pkgs.ffmpeg
+    pkgs.gimp
 
     # API
     pkgs.insomnia

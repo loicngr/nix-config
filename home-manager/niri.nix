@@ -322,6 +322,16 @@
 
         # Historique du presse-papier natif, réglé via l'UI 2026-08-24 (défaut v5: 100).
         clipboard_history_max_entries = 200;
+
+        # Réglé via l'UI 2026-09-14.
+        launcher = {
+          compact = true;
+          show_app_actions = true;
+        };
+        screenshot = {
+          annotate = true;
+          remember_last_region = true;
+        };
       };
 
       # Réglé via l'UI 2026-08-24.
@@ -377,7 +387,14 @@
       };
 
       # Plugins v5 (Luau). Sources `official` + `community` = défauts, rien à déclarer.
-      plugins.enabled = [ "dotnetrob/cat" ];
+      # Installés via l'UI 2026-09-14.
+      plugins.enabled = [
+        "dotnetrob/cat"
+        "cleboost/jetbrains-provider"
+        "davemhammer/k8s-status"
+        "8bury/mini-docker"
+        "noctalia/notes"
+      ];
 
       # Réglages par widget (v5 les sort du tableau de la barre).
       widget = {
@@ -389,18 +406,90 @@
 
       control_center.calendar.show_events_card = false;
 
-      # Widgets de l'écran de verrouillage (positionnés via l'UI, liés à eDP-1).
+      # Compte calendrier Google, ajouté via l'UI 2026-09-14.
+      calendar = {
+        enabled = true;
+        account.pro_gmail_loicngr = {
+          type = "google";
+          name = "pro.nogierloic@gmail.com";
+          color = "primary";
+        };
+      };
+
+      # Fond flouté derrière l'écran de verrouillage, réglé via l'UI 2026-09-14.
+      lockscreen.blurred_desktop = true;
+
+      # Widgets de l'écran de verrouillage (positionnés via l'UI, un par sortie :
+      # DP-2/HDMI-A-1 ajoutés 2026-09-14 suite au passage multi-écrans).
       # `enabled = false` : la fonctionnalité reste inactive, la disposition est
       # simplement mémorisée.
       lockscreen_widgets = {
         enabled = false;
         schema_version = 2;
-        widget_order = [ "lockscreen-login-box@eDP-1" ];
+        widget_order = [
+          "lockscreen-login-box@DP-2"
+          "lockscreen-login-box@HDMI-A-1"
+          "lockscreen-login-box@eDP-1"
+        ];
 
         grid = {
           cell_size = 16;
           major_interval = 4;
           visible = true;
+        };
+
+        widget."lockscreen-login-box@DP-2" = {
+          type = "login_box";
+          output = "DP-2";
+          cx = 960.0;
+          cy = 898.0;
+          box_width = 810.0;
+          box_height = 196.0;
+          rotation = 0.0;
+
+          settings = {
+            background_color = "surface_variant";
+            background_opacity = 0.88;
+            background_radius = 12.0;
+            center_password_text = false;
+            input_opacity = 1.0;
+            input_radius = 6.0;
+            layout = "regular";
+            show_caps_lock = true;
+            show_keyboard_layout = true;
+            show_login_button = true;
+            show_media = true;
+            show_session_buttons = true;
+            show_unlock_hint = true;
+            show_weather = true;
+          };
+        };
+
+        widget."lockscreen-login-box@HDMI-A-1" = {
+          type = "login_box";
+          output = "HDMI-A-1";
+          cx = 960.0;
+          cy = 898.0;
+          box_width = 810.0;
+          box_height = 196.0;
+          rotation = 0.0;
+
+          settings = {
+            background_color = "surface_variant";
+            background_opacity = 0.88;
+            background_radius = 12.0;
+            center_password_text = false;
+            input_opacity = 1.0;
+            input_radius = 6.0;
+            layout = "regular";
+            show_caps_lock = true;
+            show_keyboard_layout = true;
+            show_login_button = true;
+            show_media = true;
+            show_session_buttons = true;
+            show_unlock_hint = true;
+            show_weather = true;
+          };
         };
 
         widget."lockscreen-login-box@eDP-1" = {
