@@ -216,10 +216,10 @@
         // Floating
         Mod+Space { toggle-window-floating; }
 
-        // Screenshots
-        Print { screenshot; }
-        Mod+Shift+S { screenshot; }
-        Mod+Print { screenshot-window; }
+        // Screenshots (outil natif Noctalia, remplace le screenshot niri)
+        Print { spawn "noctalia" "msg" "screenshot-region"; }
+        Mod+Shift+S { spawn "noctalia" "msg" "screenshot-annotate"; }
+        Mod+Print { spawn "noctalia" "msg" "screenshot-fullscreen"; }
 
         // Session
         Mod+Shift+E { quit; }
@@ -286,6 +286,17 @@
         };
       };
 
+      # Contournement 2026-09-15 : Element Desktop (Electron) n'ouvre jamais de
+      # flux audio PipeWire pour ses notifications (bug côté Element, pas Nix ;
+      # confirmé via `wpctl status` pendant une notif reçue). On joue le son de
+      # notif au niveau du shell à la place. Section/clés réelles : `[audio]` en
+      # snake_case (vérifié via `noctalia config export full`), pas
+      # `shell.notification-sound` (id de traduction UI, pas la clé TOML).
+      audio = {
+        enable_sounds = true;
+        notification_sound = "${config.xdg.configHome}/noctalia/notification.mp3";
+      };
+
       shell = {
         # v4: general.avatarImage. Garde l'avatar sur le logo versionné du dépôt.
         avatar_path = "${config.xdg.configHome}/noctalia/logo.jpg";
@@ -328,9 +339,10 @@
           compact = true;
           show_app_actions = true;
         };
+        # Repassé à false via l'UI 2026-09-14 (était true le même jour).
         screenshot = {
-          annotate = true;
-          remember_last_region = true;
+          annotate = false;
+          remember_last_region = false;
         };
       };
 
@@ -387,11 +399,11 @@
       };
 
       # Plugins v5 (Luau). Sources `official` + `community` = défauts, rien à déclarer.
-      # Installés via l'UI 2026-09-14.
+      # Installés via l'UI 2026-09-14. davemhammer/k8s-status retiré le même jour
+      # (le widget "status" du capsule_group g1 a été remplacé par "sysmon").
       plugins.enabled = [
         "dotnetrob/cat"
         "cleboost/jetbrains-provider"
-        "davemhammer/k8s-status"
         "8bury/mini-docker"
         "noctalia/notes"
       ];
@@ -402,6 +414,11 @@
         media.enabled = false;
         # Format chrono (v4 utilisait le format Qt "HH:mm ddd, MMM dd").
         clock.format = "{:%d-%m-%Y %H:%M:%S}";
+
+        # Réglé via l'UI 2026-09-14.
+        brightness.enabled = false;
+        mini-docker.type = "8bury/mini-docker:mini-docker";
+        notes.type = "noctalia/notes:notes";
       };
 
       control_center.calendar.show_events_card = false;
@@ -531,10 +548,12 @@
         thickness = 30; # défaut v5 = 34
         # Disposition v4 ; `cat` = plugin communautaire dotnetrob/cat, qui remplace
         # le plugin v4 `catwalk` (chat animé) abandonné faute d'équivalent officiel.
+        # `group:g1` (capsule_group ci-dessous) ajouté via l'UI 2026-09-14 ;
+        # `sysmon` déplacé dans le groupe le même jour (n'est plus autonome ici).
         start = [
           "launcher"
           "clock"
-          "sysmon"
+          "group:g1"
           "active_window"
           "media"
           "cat"
@@ -547,8 +566,24 @@
           "battery"
           "volume"
           "brightness"
+          "notes" # ajouté via l'UI 2026-09-14 (screenshot retiré le même jour)
           "caffeine" # ajouté via l'UI 2026-08-24
           "control-center"
+        ];
+
+        # Groupe capsule "g1", ajouté via l'UI 2026-09-14 : regroupe sysmon
+        # (déplacé hors de `start`) et mini-docker.
+        capsule_group = [
+          {
+            id = "g1";
+            enabled = true;
+            fill = "surface_variant";
+            opacity = 1.0;
+            padding = 6.0;
+            accordion = false;
+            accordion_direction = "end";
+            members = [ "sysmon" "mini-docker" ];
+          }
         ];
       };
 
@@ -578,6 +613,9 @@
 
   # Avatar référencé par settings.shell.avatar_path ci-dessus.
   xdg.configFile."noctalia/logo.jpg".source = ../images/logo.jpg;
+
+  # Son de notif référencé par settings.shell.notification-sound ci-dessus.
+  xdg.configFile."noctalia/notification.mp3".source = ../sounds/notification.mp3;
 
 
   # ==========================================================================

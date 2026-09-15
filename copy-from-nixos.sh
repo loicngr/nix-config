@@ -22,6 +22,7 @@ cp "$SOURCE_DIR/flake.lock" "$DEST_DIR/"
 cp -r "$SOURCE_DIR/home-manager" "$DEST_DIR/"
 cp -r "$SOURCE_DIR/modules" "$DEST_DIR/"
 cp -r "$SOURCE_DIR/images" "$DEST_DIR/"
+cp -r "$SOURCE_DIR/sounds" "$DEST_DIR/"
 cp -r "$SOURCE_DIR/scripts" "$DEST_DIR/"
 cp -r "$SOURCE_DIR/config" "$DEST_DIR/"
 
