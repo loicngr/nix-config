@@ -403,7 +403,7 @@ in
 
     # Développement - Bases de données
     pkgs.mariadb
-    pkgs.postgresql
+    pkgs.postgresql_18 # client psql aligné sur services.postgresql.package
     pkgs.rabbitmq-c
 
     # Fake keyboard/mouse input
@@ -617,8 +617,12 @@ in
 
   services.postgresql = {
     enable = true;
-    # Épinglé sur PostgreSQL 17 pour éviter un saut de majeure (datadir incompatible) en 26.05
-    package = pkgs.postgresql_17;
+    # Migré vers PostgreSQL 18 le 2026-09-23 (données jetables/dev, pas de
+    # migration pg_dumpall nécessaire). ATTENTION saut de majeure : le service
+    # refuse de démarrer tant que l'ancien datadir 17 (/var/lib/postgresql/17)
+    # n'est pas déplacé/supprimé -- à faire manuellement (sudo requis) avant
+    # ou juste après le switch. NixOS réinitialise alors un datadir 18 vierge.
+    package = pkgs.postgresql_18;
   };
 
   # Some programs need SUID wrappers, can be configured further or are

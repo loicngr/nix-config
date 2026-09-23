@@ -216,9 +216,13 @@
         // Floating
         Mod+Space { toggle-window-floating; }
 
-        // Screenshots (outil natif Noctalia, remplace le screenshot niri)
+        // Screenshots (outil natif Noctalia, remplace le screenshot niri).
+        // `screenshot-annotate` ouvre TOUJOURS l'éditeur par design, quel que
+        // soit `shell.screenshot.annotate` (qui ne s'applique qu'à -region et
+        // -fullscreen) -- ne pas l'utiliser ici, ça a été la cause du bug du
+        // 2026-09-16 (éditeur forcé sur Mod+Shift+S malgré annotate=false).
         Print { spawn "noctalia" "msg" "screenshot-region"; }
-        Mod+Shift+S { spawn "noctalia" "msg" "screenshot-annotate"; }
+        Mod+Shift+S { spawn "noctalia" "msg" "screenshot-region"; }
         Mod+Print { spawn "noctalia" "msg" "screenshot-fullscreen"; }
 
         // Session
@@ -339,9 +343,11 @@
           compact = true;
           show_app_actions = true;
         };
-        # Repassé à false via l'UI 2026-09-14 (était true le même jour).
+        # Ouvre l'éditeur Noctalia après une capture de zone ou plein écran.
+        # Contrairement à `screenshot-annotate`, les raccourcis utilisent
+        # `screenshot-region` afin de respecter ce réglage.
         screenshot = {
-          annotate = false;
+          annotate = true;
           remember_last_region = false;
         };
       };
@@ -380,7 +386,12 @@
       # planification automatique -> on reprend les horaires manuels de v4.
       nightlight = {
         enabled = true;
-        force = true; # v4: nightLight.forced -- la clé v5 est `force`, sans "d"
+        # `force = true` (v4: nightLight.forced) verrouille le toggle dans le
+        # Control Center. Testé `force = false` le 2026-09-16 pour le rendre
+        # togglable depuis l'UI, mais le bouton du Control Center ne relaie pas
+        # le clic (bug upstream Noctalia, confirmé fonctionnel en IPC via
+        # `noctalia msg nightlight-force-toggle`) -- revenu à `true`.
+        force = true;
         temperature_day = 6500;
         temperature_night = 4000;
       };
@@ -422,6 +433,16 @@
       };
 
       control_center.calendar.show_events_card = false;
+
+      # Dock activé via l'UI 2026-09-16.
+      dock = {
+        enabled = true;
+        icon_size = 38;
+        main_axis_padding = 12;
+        reserve_space = false;
+        show_dots = true;
+        smart_auto_hide = true;
+      };
 
       # Compte calendrier Google, ajouté via l'UI 2026-09-14.
       calendar = {
