@@ -338,6 +338,9 @@
         # Historique du presse-papier natif, réglé via l'UI 2026-08-24 (défaut v5: 100).
         clipboard_history_max_entries = 200;
 
+        # Réglé via l'UI 2026-09-29.
+        screen_time_enabled = true;
+
         # Réglé via l'UI 2026-09-14.
         launcher = {
           compact = true;
@@ -432,7 +435,13 @@
         notes.type = "noctalia/notes:notes";
       };
 
-      control_center.calendar.show_events_card = false;
+      control_center.calendar.show_events_card = true; # réactivé via l'UI 2026-09-29
+
+      # Seuils d'alerte batterie par périphérique Bluetooth, réglés via l'UI
+      # 2026-09-29. Adresses stables tant que les périphériques ne sont pas
+      # ré-appairés.
+      battery.device."/org/freedesktop/UPower/devices/keyboard_dev_DC_FE_19_2B_92_70".warning_threshold = 10;
+      battery.device."/org/freedesktop/UPower/devices/mouse_dev_D7_6A_A4_6D_9E_78".warning_threshold = 10;
 
       # Dock activé via l'UI 2026-09-16.
       dock = {
