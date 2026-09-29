@@ -57,13 +57,13 @@
     proton-vpn
 
     # Kubernetes & Docker
-    k9s
+    unstable.k9s
     kubectl
     kubernetes-helm
     minikube
     helmfile
     act
-    k8sgpt
+    #k8sgpt
 
     # Niri - Wayland compositor + Noctalia
     brightnessctl

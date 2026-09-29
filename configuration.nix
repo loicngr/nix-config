@@ -284,6 +284,7 @@ in
       atomix
       geary
       gnome-terminal
+      gnome-text-editor
       hitori
       iagno
       tali
@@ -403,7 +404,7 @@ in
 
     # Développement - Bases de données
     pkgs.mariadb
-    pkgs.postgresql_18 # client psql aligné sur services.postgresql.package
+    pkgs.postgresql_18
     pkgs.rabbitmq-c
 
     # Fake keyboard/mouse input
@@ -421,7 +422,7 @@ in
     # pkgs.bitwarden-desktop
     pkgs.appimage-run
 
-    # Android (adb/fastboot — remplace programs.adb supprimé en 26.05)
+    # Android (adb/fastboot)
     pkgs.android-tools
   ];
 
@@ -611,17 +612,11 @@ in
 
   services.mysql = {
     enable = true;
-    # Épinglé sur 11.4 (LTS) pour garder le datadir compatible lors du passage à 26.05
     package = pkgs.mariadb_114;
   };
 
   services.postgresql = {
     enable = true;
-    # Migré vers PostgreSQL 18 le 2026-09-23 (données jetables/dev, pas de
-    # migration pg_dumpall nécessaire). ATTENTION saut de majeure : le service
-    # refuse de démarrer tant que l'ancien datadir 17 (/var/lib/postgresql/17)
-    # n'est pas déplacé/supprimé -- à faire manuellement (sudo requis) avant
-    # ou juste après le switch. NixOS réinitialise alors un datadir 18 vierge.
     package = pkgs.postgresql_18;
   };
 
@@ -685,5 +680,5 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "25.11"; # Did you read the comment?
+  system.stateVersion = "25.11";
 }
