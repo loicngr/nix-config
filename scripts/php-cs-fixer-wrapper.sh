@@ -1,11 +1,4 @@
 #!/usr/bin/env bash
-# Formate le PHP via php-cs-fixer.
-#
-# Usage: php-cs-fixer-wrapper [--stdin-filepath PATH] < input > output
-#
-# Walks up from --stdin-filepath (or PWD) looking for cs-fixer config in:
-#   tools/cs-fixer/cs-fixer-config.php, .php-cs-fixer.php, .php-cs-fixer.dist.php
-# Uses the vendored binary next to the config when available, else php-cs-fixer in PATH.
 
 set -u
 

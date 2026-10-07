@@ -41,13 +41,11 @@
 
       claudo = "claude --dangerously-skip-permissions";
 
-      # Tmux project sessions
       ts = "tmux-project sekur";
       tsa = "tmux-project sekur-africa";
       tp = "tmux-project propret";
       tn = "tmux-project nixos";
 
-      # PHP versions
       php83 = "PHP_INI_SCAN_DIR=${myPhp83}/lib ${myPhp83}/bin/php";
       php84 = "PHP_INI_SCAN_DIR=${myPhp84}/lib ${myPhp84}/bin/php";
       php85 = "PHP_INI_SCAN_DIR=${myPhp85}/lib ${myPhp85}/bin/php";
@@ -57,10 +55,8 @@
     };
 
     interactiveShellInit = ''
-      # Initialisation fnm avec auto-switch
       eval "$(fnm env --use-on-cd)"
 
-      # PHP version switching functions
       use-php83() {
         export PHP_INI_SCAN_DIR="${myPhp83}/lib"
         export PATH="${myPhp83}/bin:${myPhp83.packages.composer}/bin:$PATH"
@@ -113,17 +109,14 @@
       add-zsh-hook chpwd export_app_name_from_env
       export_app_name_from_env
 
-      # Local bin
       export PATH="$HOME/.local/bin:$PATH"
 
-      # Android tools
       export ANDROID_HOME="$HOME/Android/Sdk"
       export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
       export PATH="$PATH:$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/platform-tools"
 
       export XDG_DATA_HOME="$HOME/.local/share"
 
-      # Bun bin
       export PATH="$HOME/.bun/bin:$PATH"
     '';
   };

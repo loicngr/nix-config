@@ -8,7 +8,6 @@ if [ -z "$BRANCH" ]; then
     exit 1
 fi
 
-# Résolution de la branche (locale, remote tracking, ou avec préfixe origin/)
 resolve_branch() {
     local ref="$1"
     git show-ref --quiet "refs/heads/$ref" ||
@@ -22,7 +21,7 @@ if ! resolve_branch "$BRANCH"; then
 fi
 
 if resolve_branch "$BRANCH"; then
-    : # Branche trouvée telle quelle
+    :
 elif git show-ref --quiet "refs/remotes/origin/$BRANCH"; then
     echo "Branche trouvée en tant que 'origin/$BRANCH'."
     BRANCH="origin/$BRANCH"
@@ -37,7 +36,6 @@ fi
 
 CURRENT_BRANCH=$(git branch --show-current)
 
-# Trap pour nettoyer en cas d'interruption (Ctrl+C, erreur, etc.)
 MERGE_IN_PROGRESS=false
 CLAUDE_ERR=""
 tmpfile=""
@@ -59,14 +57,12 @@ echo "Merge de '$BRANCH' dans '$CURRENT_BRANCH' (--no-ff --no-commit)..."
 MERGE_OUTPUT=$(git merge --no-ff --no-commit "$BRANCH" 2>&1) || true
 MERGE_IN_PROGRESS=true
 
-# Vérifier s'il y a des conflits (indépendamment du code de sortie de git merge)
 CONFLICTS=()
 while IFS= read -r file; do
     CONFLICTS+=("$file")
 done < <(git diff --name-only --diff-filter=U)
 
 if [ ${#CONFLICTS[@]} -eq 0 ]; then
-    # Pas de conflits — vérifier si le merge a bien eu lieu
     if [ -f "$(git rev-parse --git-dir)/MERGE_HEAD" ]; then
         echo "Merge réussi sans conflits."
         echo "Les changements sont staged, prêts à être commités."
@@ -85,10 +81,8 @@ echo "Conflits détectés dans:"
 printf '  %s\n' "${CONFLICTS[@]}"
 echo ""
 
-# --- Collecte du contexte des deux branches ---
 echo "Collecte du contexte..."
 
-# Limite à 30 commits par branche pour garder le prompt à une taille raisonnable
 echo "  Commits de la branche source '$BRANCH'..."
 echo "    > git log --format='- %h %s' $CURRENT_BRANCH..$BRANCH | head -30"
 SOURCE_LOG=$(git log --format="- %h %s" "$CURRENT_BRANCH".."$BRANCH" 2>/dev/null | head -30) || SOURCE_LOG=""
@@ -136,16 +130,13 @@ CONTEXT="## Contexte du merge
 Branche source (ce qui arrive): $BRANCH
 Branche cible (où on merge): $CURRENT_BRANCH
 
-### Commits de la branche source '$BRANCH':
 ${SOURCE_LOG:-Aucun commit trouvé}
 
-### Commits de la branche cible '$CURRENT_BRANCH':
 ${TARGET_LOG:-Aucun commit trouvé}"
 
 if [ -n "$SRC_PR_TITLE" ]; then
     CONTEXT="$CONTEXT
 
-### PR de la branche source:
 **Titre:** $SRC_PR_TITLE
 **Description:** ${SRC_PR_BODY:-Aucune description}"
 fi
@@ -153,14 +144,12 @@ fi
 if [ -n "$TGT_PR_TITLE" ]; then
     CONTEXT="$CONTEXT
 
-### PR de la branche cible:
 **Titre:** $TGT_PR_TITLE
 **Description:** ${TGT_PR_BODY:-Aucune description}"
 fi
 
 echo "Contexte collecté."
 
-# --- Collecte des fichiers en conflit ---
 FILES_CONTENT=""
 for FILE in "${CONFLICTS[@]}"; do
     FILES_CONTENT="$FILES_CONTENT
@@ -169,16 +158,12 @@ $(cat "$FILE")
 ===END_FILE==="
 done
 
-# --- Fonction d'appel Claude avec spinner et logs ---
-# Usage: call_claude LABEL PROMPT_CONTENT
-# Résultat dans la variable globale RESPONSE
 call_claude() {
     local label="$1"
     local prompt_content="$2"
     local prompt_size=${#prompt_content}
     local spin=('⠋' '⠙' '⠹' '⠸' '⠼' '⠴' '⠦' '⠧' '⠇' '⠏')
 
-    # Seuil ~150k caractères (~50k tokens) → bascule vers sonnet[1m]
     local model="sonnet"
     if [ "$prompt_size" -gt 150000 ]; then
         model="sonnet[1m]"
@@ -231,15 +216,11 @@ call_claude() {
     return 0
 }
 
-# --- Passe 1: Résolution ou questions ---
 PROMPT="Tu es un expert en résolution de conflits Git.
 
 $CONTEXT
 
-### Fichiers en conflit:
 $FILES_CONTENT
-
-### Instructions:
 
 Analyse le contexte (commits, PR) pour comprendre l'intention des changements de chaque côté.
 Résous les conflits de manière intelligente en te basant sur ce contexte.
@@ -294,13 +275,10 @@ Réponse: $answer"
 
 $CONTEXT
 
-### Fichiers en conflit:
 $FILES_CONTENT
 
-### Questions et réponses:
 ${ANSWERS:-L'utilisateur n'a pas souhaité répondre aux questions. Résous au mieux avec le contexte disponible.}
 
-### Instructions:
 Résous maintenant tous les conflits. Utilise exactement ce format:
 - Première ligne: MODE:RESOLVE
 - Pour chaque fichier:
@@ -316,7 +294,6 @@ IMPORTANT: Pas de backticks, pas de markdown autour du contenu des fichiers. Le 
     fi
 fi
 
-# --- Vérification du mode de la réponse finale ---
 FINAL_MODE=$(echo "$RESPONSE" | head -1 | tr -d '[:space:]')
 
 if [ "$FINAL_MODE" != "MODE:RESOLVE" ]; then
@@ -325,7 +302,6 @@ if [ "$FINAL_MODE" != "MODE:RESOLVE" ]; then
     exit 1
 fi
 
-# --- Extraction des fichiers résolus dans des fichiers temporaires ---
 echo ""
 echo "Extraction des résolutions..."
 
@@ -339,7 +315,6 @@ while IFS= read -r line; do
     if [[ "$line" =~ ^===FILE:(.+)===$ ]]; then
         current_file="${BASH_REMATCH[1]}"
 
-        # Vérifier que le fichier fait partie des conflits connus
         file_valid=false
         for conflict in "${CONFLICTS[@]}"; do
             if [ "$conflict" = "$current_file" ]; then
@@ -367,7 +342,6 @@ while IFS= read -r line; do
     fi
 done <<< "$CONTENT"
 
-# Nettoyage en cas de fichier temporaire orphelin
 [ -n "${tmpfile:-}" ] && [ -f "$tmpfile" ] && rm -f "$tmpfile"
 
 if [ ${#RESOLVED_FILES[@]} -eq 0 ]; then
@@ -375,7 +349,6 @@ if [ ${#RESOLVED_FILES[@]} -eq 0 ]; then
     exit 1
 fi
 
-# --- Confirmation avant d'appliquer ---
 echo ""
 echo "${#RESOLVED_FILES[@]} fichier(s) résolu(s). Appliquer les résolutions ? [y/n]"
 read -n 1 -r < /dev/tty
@@ -383,7 +356,6 @@ echo ""
 
 if [[ ! "$REPLY" =~ ^[yY]$ ]]; then
     echo "Résolutions annulées."
-    # Nettoyage des fichiers temporaires
     for entry in "${RESOLVED_FILES[@]}"; do
         resolved_tmp="${entry#*:}"
         rm -f "$resolved_tmp"
@@ -391,7 +363,6 @@ if [[ ! "$REPLY" =~ ^[yY]$ ]]; then
     exit 1
 fi
 
-# --- Application des résolutions ---
 echo "Application des résolutions..."
 
 for entry in "${RESOLVED_FILES[@]}"; do
@@ -404,7 +375,6 @@ for entry in "${RESOLVED_FILES[@]}"; do
     fi
 done
 
-# Git add uniquement les fichiers effectivement résolus
 for entry in "${RESOLVED_FILES[@]}"; do
     resolved_file="${entry%%:*}"
     if [ -f "$resolved_file" ]; then
@@ -412,7 +382,6 @@ for entry in "${RESOLVED_FILES[@]}"; do
     fi
 done
 
-# Vérification finale
 REMAINING=$(git diff --name-only --diff-filter=U 2>/dev/null)
 
 if [ -z "$REMAINING" ]; then

@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: claude-commit [--commit]
-#   Par défaut : génère le message et l'écrit dans .git/MERGE_MSG (pour lazygit)
-#   --commit   : génère, ouvre l'ide pour éditer, puis commit directement
-
 MODE="prefill"
 if [ "${1:-}" = "--commit" ]; then
     MODE="commit"
@@ -18,13 +14,11 @@ CLAUDE_OUT=$(mktemp)
 cleanup() { rm -f "$TMPFILE" "$CLAUDE_ERR" "$CLAUDE_OUT"; return 0; }
 trap cleanup EXIT
 
-# Vérifier que le fichier prompt existe
 if [ ! -f "$PROMPT_FILE" ]; then
     echo "Erreur: Fichier prompt introuvable: $PROMPT_FILE"
     exit 1
 fi
 
-# Gérer le detached HEAD
 BRANCH=$(git branch --show-current)
 if [ -z "$BRANCH" ]; then
     BRANCH=$(git rev-parse --short HEAD)
@@ -78,7 +72,6 @@ if [ -z "$MSG" ]; then
     exit 1
 fi
 
-# Nettoyage des artefacts markdown résiduels
 MSG=$(echo "$MSG" | sed '/^```/d' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
 
 if [ "$MODE" = "prefill" ]; then
@@ -86,7 +79,6 @@ if [ "$MODE" = "prefill" ]; then
     echo "$MSG" > "$GIT_DIR/LAZYGIT_PENDING_COMMIT"
     echo "Message généré. Appuie sur 'c' pour valider le commit."
 else
-    # Mode --commit : ouvre l'ide puis commit directement
     echo "$MSG" > "$TMPFILE"
     MTIME_BEFORE=$(stat -c %Y.%N "$TMPFILE")
     micro "$TMPFILE"

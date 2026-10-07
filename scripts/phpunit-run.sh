@@ -5,12 +5,10 @@ ACTION="$1"
 FILE="$2"
 LINE="$3"
 
-# Convertir en chemin absolu
 if [[ "$FILE" != /* ]]; then
   FILE="$(pwd)/$FILE"
 fi
 
-# Détection du projet
 if [[ "$FILE" == *"/back/"* ]]; then
   WORKSPACE_ROOT="${FILE%%/back/*}"
   PROJECT_ROOT="$WORKSPACE_ROOT/back"
@@ -21,7 +19,6 @@ else
   RELATIVE_FILE="$FILE"
 fi
 
-# Charger .env
 [ -f "$WORKSPACE_ROOT/.env" ] && { set -a; source "$WORKSPACE_ROOT/.env"; set +a; }
 
 PHPUNIT="./vendor/phpunit/phpunit/phpunit"

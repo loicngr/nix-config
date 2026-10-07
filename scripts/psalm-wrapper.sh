@@ -1,12 +1,4 @@
 #!/usr/bin/env bash
-# Wrapper pour Psalm — auto-détecte psalm.xml et le binaire vendored.
-#
-# Cherche psalm.xml en remontant depuis $PWD, puis dans les sous-dossiers
-# immédiats (layout monorepo type sekur/back/psalm.xml ouvert depuis sekur/).
-# Si trouvé, cd dans son dossier et utilise vendor/bin/psalm ou
-# tools/psalm/vendor/bin/psalm s'ils existent. Sinon, fallback sur `psalm` du PATH.
-#
-# Conçu pour être appelé par les éditeurs configurés.
 
 set -u
 

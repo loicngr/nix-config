@@ -11,14 +11,10 @@
 
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
+    LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
   };
 
   home.packages = with pkgs; [
-    # Ai
-    # claude lance gstack/browse (binaire bun --compile) qui dlopen sharp.node
-    # pour annoter les captures. Ce dlopen résout libstdc++ via LD_LIBRARY_PATH
-    # (et non NIX_LD_LIBRARY_PATH que gère nix-ld) : on l'injecte sur claude,
-    # browse en hérite. Sinon : "ERR_DLOPEN_FAILED: libstdc++.so.6" → captures brutes.
     (pkgs.symlinkJoin {
       name = "claude-code-with-libstdcxx";
       paths = [ claude-code ];
@@ -30,7 +26,6 @@
     })
     codex
 
-    # Tools
     cordova
     gradle
     bun
@@ -48,7 +43,6 @@
     imagemagick
     rclone
 
-    # Applications
     fastfetch
     keepassxc
     wkhtmltopdf
@@ -56,16 +50,13 @@
     libreoffice
     proton-vpn
 
-    # Kubernetes & Docker
     unstable.k9s
     kubectl
     kubernetes-helm
     minikube
     helmfile
     act
-    #k8sgpt
 
-    # Niri - Wayland compositor + Noctalia
     brightnessctl
 
     solaar
@@ -73,7 +64,6 @@
     catppuccin-cursors.mochaMauve
     papirus-icon-theme
 
-    # Éditeurs & IDE
     unstable.jetbrains.phpstorm
     #unstable.jetbrains.pycharm
     #unstable.jetbrains.webstorm
@@ -81,7 +71,6 @@
     bundletool
     sourcegit
 
-    # Chrome isolé pour les applications WebGPU qui nécessitent XWayland + Vulkan/ANGLE.
     (pkgs.writeShellScriptBin "chrome-webgpu" ''
       webgpu_profile="''${XDG_CONFIG_HOME:-$HOME/.config}/google-chrome-webgpu"
 
@@ -205,12 +194,10 @@
     enableZshIntegration = true;
     enableBashIntegration = true;
 
-    # Utiliser fd au lieu de find (plus rapide, respecte .gitignore)
     defaultCommand = "fd --type f --hidden --follow --exclude .git";
     fileWidgetCommand = "fd --type f --hidden --follow --exclude .git";
     changeDirWidgetCommand = "fd --type d --hidden --follow --exclude .git";
 
-    # Options par défaut
     defaultOptions = [
       "--height=40%"
       "--layout=reverse"
@@ -218,23 +205,19 @@
       "--info=inline"
       "--margin=1"
       "--padding=1"
-      # Catppuccin Mocha
       "--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8"
       "--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc"
       "--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
     ];
 
-    # Ctrl+T : recherche fichiers
     fileWidgetOptions = [
       "--preview 'bat --color=always --style=numbers --line-range=:500 {} 2>/dev/null || cat {}'"
     ];
 
-    # Alt+C : cd dans un répertoire
     changeDirWidgetOptions = [
       "--preview 'eza --tree --color=always --icons --level=2 {}'"
     ];
 
-    # Ctrl+R : historique (déjà configuré par défaut)
     historyWidgetOptions = [
       "--sort"
       "--exact"
@@ -363,42 +346,35 @@
   programs.tmux = {
     enable = true;
 
-    # Prefix : Ctrl+a (plus ergonomique que Ctrl+b)
     prefix = "C-a";
 
-    # Options de base
     mouse = true;
     keyMode = "vi";
-    baseIndex = 1; # Fenêtres commencent à 1
-    escapeTime = 0; # Pas de délai pour Escape
+    baseIndex = 1;
+    escapeTime = 0;
     historyLimit = 50000;
     terminal = "tmux-256color";
 
     plugins = with pkgs.tmuxPlugins; [
-      # Sauvegarde/restauration de sessions
       {
         plugin = resurrect;
         extraConfig = ''
           set -g @resurrect-capture-pane-contents 'on'
         '';
       }
-      # Copier dans le clipboard système
       yank
-      # Sélection rapide d'URLs, IPs, hashs, paths
       {
         plugin = fingers;
         extraConfig = ''
           set -g @fingers-key f
         '';
       }
-      # Gestion sessions/windows/panes avec fzf
       {
         plugin = tmux-fzf;
         extraConfig = ''
           set -g @tmux-fzf-launch-key F
         '';
       }
-      # Thème catppuccin
       {
         plugin = catppuccin;
         extraConfig = ''
@@ -409,47 +385,35 @@
     ];
 
     extraConfig = ''
-      # True color support
       set -ag terminal-overrides ",xterm-256color:RGB"
 
-      # Transmettre les focus events aux applications
       set -g focus-events on
 
-      # Renuméroter les fenêtres automatiquement
       set -g renumber-windows on
 
-      # Panes commencent à 1 (comme les fenêtres)
       set -g pane-base-index 1
 
-      # Clipboard OSC 52
       set -g set-clipboard on
       set -g allow-passthrough on
 
-      # Split avec h (horizontal) et v (vertical)
       bind h split-window -v -c "#{pane_current_path}"
       bind v split-window -h -c "#{pane_current_path}"
 
-      # Nouvelle fenêtre dans le même répertoire
       bind c new-window -c "#{pane_current_path}"
 
-      # Reload config avec r
       bind r source-file ~/.config/tmux/tmux.conf \; display "Config rechargée!"
 
-      # Resize panes avec Ctrl+flèches
       bind -r C-Left resize-pane -L 5
       bind -r C-Right resize-pane -R 5
       bind -r C-Up resize-pane -U 5
       bind -r C-Down resize-pane -D 5
 
-      # Vi-style copy mode
       bind -T copy-mode-vi v send -X begin-selection
       bind -T copy-mode-vi y send -X copy-pipe-and-cancel "wl-copy"
 
-      # Renommer fenêtre/session
       bind n command-prompt "rename-window '%%'"
       bind N command-prompt "rename-session '%%'"
 
-      # Floating popup scratch terminal (Alt+g)
       bind -n M-g if-shell -F '#{==:#{session_name},scratch}' {
         detach-client
       } {
@@ -458,7 +422,6 @@
     '';
   };
 
-  # Autostart applications
   xdg.configFile."autostart/kDrive.desktop".text = ''
     [Desktop Entry]
     Type=Application
@@ -540,11 +503,6 @@
     colorscheme = "dracula";
   };
 
-  # Montage WebDAV LWF (vps9) via rclone, démarré au login et gardé actif.
-  # Le secret (rclone.conf avec le mot de passe obscurci) n'est PAS géré par
-  # Nix : il vit dans ~/.config/rclone/rclone.conf (hors store, non versionné,
-  # permissions 600) car ce dépôt ne dispose pas encore de gestion de secrets
-  # (agenix/sops-nix).
   systemd.user.services.rclone-webdav-lwf = {
     Unit = {
       Description = "Montage WebDAV LWF (vps9) via rclone";

@@ -4,7 +4,6 @@
   programs.helix = {
     enable = true;
     settings = {
-      #theme = "base16";
       editor = {
         default-yank-register = "+";
 
@@ -106,32 +105,22 @@
         "A-f" = "global_search";
         "C-b" = "goto_definition";
         "C-r" = "goto_reference";
-        # Next/Previous error (F2 / Shift+F2)
         "F2" = "goto_next_diag";
         "S-F2" = "goto_prev_diag";
         "S-F6" = "rename_symbol";
-        # Quick fix / Code actions (Alt+Enter)
         "A-ret" = "code_action";
-        # Documentation popup (Ctrl+Q)
         "C-q" = "hover";
-        # Parameter info (Ctrl+P) - signature help
         "C-p" = "signature_help";
-        # Buffer picker (onglets)
         "A-e" = "buffer_picker";
-        # Undo/Redo
         "C-z" = "undo";
         "A-z" = "redo";
-        # Dupliquer ligne
         "C-d" = [
           "extend_line_below"
           "yank"
           "paste_after"
         ];
-        # Sélectionner tout
         "C-a" = "select_all";
-        # Aller à la ligne
         "C-g" = "goto_line";
-        # Symboles du document
         "A-o" = "symbol_picker";
         "C-A-d" = "hsplit";
         "C-A-r" = "vsplit";
@@ -139,7 +128,6 @@
         "C-w" = ":buffer-close";
         "C-left" = "move_prev_word_start";
         "C-right" = "move_next_word_start";
-        # Yazi file picker
         "C-e" = [
           ":sh rm -f /tmp/yazi-chooser"
           '':insert-output yazi "%{buffer_name}" --chooser-file=/tmp/yazi-chooser''
@@ -389,10 +377,6 @@
     };
 
     themes = {
-      #autumn_night_transparent = {
-      #  "inherits" = "autumn_night";
-      #  "ui.background" = { };
-      #};
     };
   };
 

@@ -39,7 +39,6 @@ let
 
   phpConfig = ''
     xdebug.mode=develop
-    # xdebug.start_with_request=yes
     memory_limit = 2G
   '';
 

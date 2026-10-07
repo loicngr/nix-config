@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# Wrapper eslint_d qui trouve automatiquement la config eslint
-# Usage: eslint-wrapper --stdin-filename <path>
 
 FILENAME=""
 for arg in "$@"; do
@@ -11,7 +9,6 @@ for arg in "$@"; do
   esac
 done
 
-# Si pas de filename, utiliser le dernier argument
 if [ -z "$FILENAME" ]; then
   for arg in "$@"; do
     case "$arg" in
@@ -28,12 +25,10 @@ if [ -z "$FILENAME" ]; then
   done
 fi
 
-# Convertir en chemin absolu
 if [ -n "$FILENAME" ] && [ "${FILENAME:0:1}" != "/" ]; then
   FILENAME="$(pwd)/$FILENAME"
 fi
 
-# Chercher la config eslint en remontant l'arborescence
 find_eslint_root() {
   local dir="$1"
   while [ "$dir" != "/" ]; do
@@ -54,12 +49,10 @@ find_eslint_root() {
   return 1
 }
 
-# Trouver le répertoire racine eslint
 if [ -n "$FILENAME" ]; then
   ESLINT_ROOT=$(find_eslint_root "$(dirname "$FILENAME")")
 fi
 
-# Si trouvé, changer de répertoire et exécuter
 if [ -n "$ESLINT_ROOT" ]; then
   cd "$ESLINT_ROOT"
 fi
