@@ -8,6 +8,12 @@
     autosuggestions.enable = true;
     syntaxHighlighting.enable = true;
 
+    shellInit = ''
+      if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+        . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+      fi
+    '';
+
     ohMyZsh = {
       enable = true;
       plugins = [
