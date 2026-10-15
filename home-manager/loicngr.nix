@@ -11,7 +11,7 @@
 
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
-    LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+    LD_LIBRARY_PATH = "${unstable.stdenv.cc.cc.lib}/lib";
   };
 
   home.packages = with pkgs; [
@@ -21,7 +21,7 @@
       nativeBuildInputs = [ makeWrapper ];
       postBuild = ''
         wrapProgram $out/bin/claude \
-          --prefix LD_LIBRARY_PATH : ${stdenv.cc.cc.lib}/lib
+          --prefix LD_LIBRARY_PATH : ${unstable.stdenv.cc.cc.lib}/lib
       '';
     })
     codex
