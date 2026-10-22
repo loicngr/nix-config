@@ -31,6 +31,13 @@ in
 
   zramSwap.enable = true;
 
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 16384;
+    }
+  ];
+
   services.journald.extraConfig = "SystemMaxUse=500M";
 
   boot.kernel.sysctl = {

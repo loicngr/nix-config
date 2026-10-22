@@ -25,6 +25,7 @@
       '';
     })
     codex
+    unstable.mistral-vibe
 
     cordova
     gradle

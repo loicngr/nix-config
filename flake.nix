@@ -12,7 +12,7 @@
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
 
     noctalia = {
-      url = "github:noctalia-dev/noctalia/v5.2.1";
+      url = "github:noctalia-dev/noctalia/v5.3.0";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
@@ -31,6 +31,12 @@
     }:
     let
       system = "x86_64-linux";
+      # shortcut: solaar (stable) teste un vrai dbus dans le sandbox de build et
+      # plante -> on prend la version unstable (deja en cache binaire, pas de
+      # rebuild). upgrade: retirer si nixpkgs stable corrige le test upstream
+      solaarOverlay = final: prev: {
+        solaar = unstable.solaar;
+      };
       pkgs = import nixpkgs {
         inherit system;
         config = {
@@ -40,6 +46,7 @@
         overlays = [
           claude-code.overlays.default
           codex-cli-nix.overlays.default
+          solaarOverlay
         ];
       };
 
@@ -57,6 +64,7 @@
           ./configuration.nix
           {
             nixpkgs.config.allowUnfree = true;
+            nixpkgs.overlays = [ solaarOverlay ];
           }
         ];
       };
