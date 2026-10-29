@@ -25,7 +25,7 @@
       '';
     })
     codex
-    unstable.mistral-vibe
+    #unstable.mistral-vibe
 
     cordova
     gradle
@@ -70,6 +70,7 @@
     #unstable.jetbrains.webstorm
     android-studio
     bundletool
+    kotlin
     sourcegit
 
     (pkgs.writeShellScriptBin "chrome-webgpu" ''
