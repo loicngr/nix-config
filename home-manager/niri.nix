@@ -222,7 +222,8 @@
 
       audio = {
         enable_sounds = true;
-        notification_sound = "${config.xdg.configHome}/noctalia/notification.mp3";
+        enable_notification_sounds = true;
+        sound_theme = "noctalia-notif";
       };
 
       shell = {
@@ -353,7 +354,7 @@
           rotation = 0.0;
 
           settings = {
-            background_color = "surface_variant";
+            background_color = "surface_container";
             background_opacity = 0.88;
             background_radius = 12.0;
             center_password_text = false;
@@ -380,7 +381,7 @@
           rotation = 0.0;
 
           settings = {
-            background_color = "surface_variant";
+            background_color = "surface_container";
             background_opacity = 0.88;
             background_radius = 12.0;
             center_password_text = false;
@@ -407,7 +408,7 @@
           rotation = 0.0;
 
           settings = {
-            background_color = "surface_variant";
+            background_color = "surface_container";
             background_opacity = 0.88;
             background_radius = 12.0;
             center_password_text = false;
@@ -457,7 +458,7 @@
           {
             id = "g1";
             enabled = true;
-            fill = "surface_variant";
+            fill = "surface_container";
             opacity = 1.0;
             padding = 6.0;
             accordion = false;
@@ -486,7 +487,18 @@
   };
 
   xdg.configFile."noctalia/logo.jpg".source = ../images/logo.jpg;
-  xdg.configFile."noctalia/notification.mp3".source = ../sounds/notification.mp3;
+
+  # theme de sons freedesktop minimal (plus de notification_sound en v5.4.0, cf. audio.mdx)
+  xdg.dataFile."sounds/noctalia-notif/index.theme".text = ''
+    [Sound Theme]
+    Name=noctalia-notif
+    Inherits=freedesktop
+    Directories=stereo
+
+    [stereo]
+    OutputProfile=stereo
+  '';
+  xdg.dataFile."sounds/noctalia-notif/stereo/message-new-instant.mp3".source = ../sounds/notification.mp3;
 
   gtk = {
     enable = true;
