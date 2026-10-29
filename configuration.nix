@@ -430,6 +430,10 @@ in
     gdk-pixbuf
     glib
     gtk3
+    webkitgtk_4_1
+    libsoup_3
+    libayatana-appindicator
+    librsvg
     libdrm
     libGL
     libglvnd
