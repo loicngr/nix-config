@@ -11,7 +11,7 @@
 
   home.sessionVariables = {
     NIXOS_OZONE_WL = "1";
-    LD_LIBRARY_PATH = "${unstable.stdenv.cc.cc.lib}/lib";
+    LD_LIBRARY_PATH = "${unstable.stdenv.cc.cc.lib}/lib:${unstable.zlib}/lib";
   };
 
   home.packages = with pkgs; [

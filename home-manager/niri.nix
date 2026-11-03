@@ -205,12 +205,15 @@
     enable = true;
 
     settings = {
+      config_version = 16;
       accessibility.ui_scale = 0.9;
 
       theme = {
         mode = "dark";
         source = "builtin";
         builtin = "Dracula";
+        community_palette = "Oxocarbon";
+        wallpaper_scheme = "m3-content";
 
         templates = {
           enable_builtin_templates = false;
@@ -224,6 +227,16 @@
         enable_sounds = true;
         enable_notification_sounds = true;
         sound_theme = "noctalia-notif";
+      };
+
+      wallpaper = {
+        default.path = "/home/loicngr/Pictures/wallhaven-lygo7y.jpg";
+        last.path = "/home/loicngr/Pictures/wallhaven-lygo7y.jpg";
+      };
+
+      bluetooth = {
+        connect_when_enabled = true;
+        connection_notifications = true;
       };
 
       shell = {
@@ -292,8 +305,12 @@
 
       plugins.enabled = [
         "dotnetrob/cat"
-        "cleboost/jetbrains-provider"
         "noctalia/notes"
+        "noctalia/bongocat"
+        "noctalia/screen_recorder"
+        "noctalia/timer"
+        "noctalia/wallpaper_depth"
+        "noctalia/wallhaven"
       ];
 
       widget = {
@@ -302,6 +319,19 @@
         clock.format = "{:%d-%m-%Y %H:%M:%S}";
         brightness.enabled = false;
         notes.type = "noctalia/notes:notes";
+        bar.type = "noctalia/wallpaper_depth:bar";
+        bar_2 = {
+          enabled = false;
+          type = "noctalia/timer:bar";
+        };
+        cat_2 = {
+          type = "noctalia/bongocat:cat";
+          audio_spectrum = true;
+          input_devices = [ "/dev/input/event*" ];
+          rave_mode = true;
+          tappy_mode = true;
+        };
+        wallhaven.type = "noctalia/wallhaven:wallhaven";
       };
 
       control_center.calendar.show_events_card = true;
@@ -325,6 +355,7 @@
           name = "pro.nogierloic@gmail.com";
           color = "primary";
         };
+        reminders.all_day_digest_time = "08h30";
       };
 
       lockscreen.blurred_desktop = true;
@@ -347,10 +378,12 @@
         widget."lockscreen-login-box@DP-2" = {
           type = "login_box";
           output = "DP-2";
-          cx = 960.0;
+          cx = 960.00006103515625;
           cy = 898.0;
           box_width = 810.0;
           box_height = 196.0;
+          placement_height = 1080.0;
+          placement_width = 1920.0;
           rotation = 0.0;
 
           settings = {
@@ -378,6 +411,8 @@
           cy = 898.0;
           box_width = 810.0;
           box_height = 196.0;
+          placement_height = 1080.0;
+          placement_width = 1920.0;
           rotation = 0.0;
 
           settings = {
@@ -405,6 +440,8 @@
           cy = 898.0;
           box_width = 810.0;
           box_height = 196.0;
+          placement_height = 1080.0;
+          placement_width = 1920.0;
           rotation = 0.0;
 
           settings = {
@@ -435,22 +472,23 @@
         thickness = 30;
         start = [
           "launcher"
+          "wallhaven"
           "clock"
-          "group:g1"
+          "sysmon"
           "active_window"
           "media"
-          "cat"
         ];
-        center = [ "workspaces" ];
+        center = [ "group:g1" "bar_2" ];
         end = [
           "tray"
           "notifications"
           "clipboard"
+          "notes"
           "battery"
           "volume"
           "brightness"
-          "notes" # ajouté via l'UI 2026-09-14 (screenshot retiré le même jour)
-          "caffeine" # ajouté via l'UI 2026-08-24
+          "caffeine"
+          "bar"
           "control-center"
         ];
 
@@ -461,9 +499,10 @@
             fill = "surface_container";
             opacity = 1.0;
             padding = 6.0;
+            border_width = 1.0;
             accordion = false;
             accordion_direction = "end";
-            members = [ "sysmon" "mini-docker" ];
+            members = [ "cat" "workspaces" "cat_2" ];
           }
         ];
       };

@@ -253,6 +253,7 @@ in
   );
 
   environment.systemPackages = [
+    pkgs.openssl
     pkgs.vim
     pkgs.vscodium
     pkgs.micro
@@ -269,6 +270,7 @@ in
     pkgs.k6
 
     pkgs.btop
+    pkgs.evtest
     pkgs.fd
     pkgs.htop
     pkgs.nvtopPackages.nvidia
