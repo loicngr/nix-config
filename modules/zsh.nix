@@ -38,7 +38,7 @@
       ls = "eza";
 
       cat = "bat";
-      open = "nautilus";
+      open = "luciole";
 
       nu = "nh os switch /etc/nixos && nh home switch /etc/nixos";
       nup = "sudo nix flake update --flake /etc/nixos && nh os switch /etc/nixos && nh home switch /etc/nixos";

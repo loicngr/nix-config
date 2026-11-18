@@ -12,7 +12,12 @@
     codex-cli-nix.url = "github:sadjow/codex-cli-nix";
 
     noctalia = {
-      url = "github:noctalia-dev/noctalia/v5.4.1";
+      url = "github:noctalia-dev/noctalia/v5.5.0";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
+    luciole = {
+      url = "github:noctalia-dev/luciole/83856751534bd13d06632f37b95892b20928deec";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
@@ -27,6 +32,7 @@
       claude-code,
       codex-cli-nix,
       noctalia,
+      luciole,
       ...
     }:
     let
@@ -59,7 +65,7 @@
       formatter.${system} = pkgs.nixfmt-rfc-style;
       nixosConfigurations.loicngr = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit unstable; };
+        specialArgs = { inherit unstable luciole; };
         modules = [
           ./configuration.nix
           {
@@ -73,6 +79,7 @@
         extraSpecialArgs = { inherit unstable noctalia; };
         modules = [
           noctalia.homeModules.default
+          luciole.homeModules.default
           ./modules/php.nix
           ./home-manager/loicngr.nix
         ];

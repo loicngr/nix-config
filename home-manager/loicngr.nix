@@ -3,6 +3,7 @@
 {
   imports = [
     ./kitty.nix
+    ./luciole.nix
     ./niri.nix
   ];
   home.username = "loicngr";

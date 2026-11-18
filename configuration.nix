@@ -1,7 +1,9 @@
 {
   config,
   pkgs,
+  lib,
   unstable,
+  luciole,
   myPhp83,
   myPhp84,
   myPhp85,
@@ -86,6 +88,7 @@ in
   };
 
   services.gvfs.enable = true;
+  services.avahi.enable = true;
 
   services.fstrim.enable = true;
 
@@ -134,16 +137,20 @@ in
     freeMemThreshold = 5;
   };
 
-  services.desktopManager.gnome.enable = true;
+  services.desktopManager.gnome.enable = false;
 
   programs.niri.enable = true;
+  programs.niri.useNautilus = false;
 
   xdg.portal.config.niri = {
-    "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+    "org.freedesktop.impl.portal.FileChooser" = lib.mkForce [ "luciole" "gtk" ];
   };
 
   xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.extraPortals = [
+    pkgs.xdg-desktop-portal-gtk
+    luciole.packages.${pkgs.stdenv.hostPlatform.system}.default
+  ];
 
   services.xserver.xkb = {
     layout = "fr";
@@ -175,7 +182,6 @@ in
       "docker"
       "input"
       "kvm"
-      "gamemode"
     ];
     packages = with pkgs; [
       thunderbird
@@ -186,12 +192,7 @@ in
     enable = true;
   };
 
-  programs.gamemode.enable = true;
-
-  programs.steam = {
-    enable = true;
-  };
-  
+  programs.gamemode.enable = false;
 
   documentation.man.cache.enable = false;
 
@@ -237,23 +238,18 @@ in
   };
 
   services.gnome.gnome-keyring.enable = true;
+  services.gnome.gcr-ssh-agent.enable = true;
+  services.gnome.gnome-online-accounts.enable = true;
+  services.gnome.glib-networking.enable = true;
+  services.gnome.at-spi2-core.enable = true;
+  services.orca.enable = true;
+  services.udisks2.enable = true;
+  programs.seahorse.enable = true;
   security.polkit.enable = true;
-
-  environment.gnome.excludePackages = (
-    with pkgs;
-    [
-      atomix
-      geary
-      gnome-terminal
-      gnome-text-editor
-      hitori
-      iagno
-      tali
-    ]
-  );
 
   environment.systemPackages = [
     pkgs.openssl
+
     pkgs.vim
     pkgs.vscodium
     pkgs.micro
@@ -269,6 +265,7 @@ in
     pkgs.insomnia
     pkgs.k6
 
+	pkgs.gnome-clocks
     pkgs.btop
     pkgs.evtest
     pkgs.fd
@@ -279,7 +276,7 @@ in
     pkgs.just
     pkgs.ripgrep
     pkgs.yq
-    pkgs.nautilus
+    pkgs.loupe
     pkgs.ncdu
     pkgs.p7zip
     pkgs.zip
@@ -385,6 +382,7 @@ in
   };
 
   xdg.mime.defaultApplications = {
+    "inode/directory" = "dev.noctalia.luciole.desktop";
     "text/html" = "google-chrome.desktop";
     "x-scheme-handler/http" = "google-chrome.desktop";
     "x-scheme-handler/https" = "google-chrome.desktop";
@@ -407,11 +405,11 @@ in
 
     "application/pdf" = "google-chrome.desktop";
 
-    "image/png" = "org.gnome.eog.desktop";
-    "image/jpeg" = "org.gnome.eog.desktop";
-    "image/gif" = "org.gnome.eog.desktop";
-    "image/webp" = "org.gnome.eog.desktop";
-    "image/svg+xml" = "org.gnome.eog.desktop";
+    "image/png" = "org.gnome.Loupe.desktop";
+    "image/jpeg" = "org.gnome.Loupe.desktop";
+    "image/gif" = "org.gnome.Loupe.desktop";
+    "image/webp" = "org.gnome.Loupe.desktop";
+    "image/svg+xml" = "org.gnome.Loupe.desktop";
   };
 
   programs.appimage = {

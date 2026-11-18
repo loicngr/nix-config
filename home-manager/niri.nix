@@ -93,6 +93,7 @@
         Mod+Shift+Return { spawn "kitty"; }
 
         Mod+D { spawn "noctalia" "msg" "panel-toggle" "launcher"; }
+        Mod+E { spawn "luciole"; }
         Mod+V { spawn "noctalia" "msg" "panel-toggle" "clipboard"; }
         Mod+period { spawn "noctalia" "msg" "panel-toggle" "launcher" "/emo"; }
         Mod+M { spawn "noctalia" "msg" "panel-toggle" "control-center" "monitor"; }
@@ -230,8 +231,8 @@
       };
 
       wallpaper = {
-        default.path = "/home/loicngr/Pictures/wallhaven-lygo7y.jpg";
-        last.path = "/home/loicngr/Pictures/wallhaven-lygo7y.jpg";
+        default.path = "/home/loicngr/Pictures/wallhaven-l8q5k2.jpg";
+        last.path = "/home/loicngr/Pictures/wallhaven-l8q5k2.jpg";
       };
 
       bluetooth = {
@@ -306,7 +307,6 @@
       plugins.enabled = [
         "dotnetrob/cat"
         "noctalia/notes"
-        "noctalia/bongocat"
         "noctalia/screen_recorder"
         "noctalia/timer"
         "noctalia/wallpaper_depth"
@@ -323,13 +323,6 @@
         bar_2 = {
           enabled = false;
           type = "noctalia/timer:bar";
-        };
-        cat_2 = {
-          type = "noctalia/bongocat:cat";
-          audio_spectrum = true;
-          input_devices = [ "/dev/input/event*" ];
-          rave_mode = true;
-          tappy_mode = true;
         };
         wallhaven.type = "noctalia/wallhaven:wallhaven";
       };
@@ -398,6 +391,7 @@
             show_keyboard_layout = true;
             show_login_button = true;
             show_media = true;
+            show_password_reveal = true;
             show_session_buttons = true;
             show_unlock_hint = true;
             show_weather = true;
@@ -427,6 +421,7 @@
             show_keyboard_layout = true;
             show_login_button = true;
             show_media = true;
+            show_password_reveal = true;
             show_session_buttons = true;
             show_unlock_hint = true;
             show_weather = true;
@@ -456,6 +451,7 @@
             show_keyboard_layout = true;
             show_login_button = true;
             show_media = true;
+            show_password_reveal = true;
             show_session_buttons = true;
             show_unlock_hint = true;
             show_weather = true;
@@ -502,7 +498,7 @@
             border_width = 1.0;
             accordion = false;
             accordion_direction = "end";
-            members = [ "cat" "workspaces" "cat_2" ];
+            members = [ "cat" "workspaces" ];
           }
         ];
       };
